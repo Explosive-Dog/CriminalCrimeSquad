@@ -1,0 +1,20 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/notlikeroguelike/v16
+/Debug
+/notlikeroguelike/Debug
+/notlikeroguelike/x64
+/x64
+/notlikeroguelike/sfml-window-d-2.dll
+/notlikeroguelike/sfml-window-2.dll
+/notlikeroguelike/sfml-system-d-2.dll
+/notlikeroguelike/sfml-system-2.dll
+/notlikeroguelike/sfml-network-d-2.dll
+/notlikeroguelike/sfml-network-2.dll
+/notlikeroguelike/sfml-graphics-d-2.dll
+/notlikeroguelike/sfml-graphics-2.dll
+/notlikeroguelike/sfml-audio-d-2.dll
+/notlikeroguelike/sfml-audio-2.dll
+/notlikeroguelike/tilemap-tileset.png
