@@ -9,7 +9,7 @@ public:
     Camera();
     virtual ~Camera() = default;
 
-    void update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState) override;
+    void update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables) override;
 
     sf::View* getView();
 

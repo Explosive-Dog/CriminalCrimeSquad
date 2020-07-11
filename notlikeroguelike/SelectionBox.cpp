@@ -1,4 +1,5 @@
 #include "SelectionBox.h"
+#include <iostream>
 
 SelectionBox::SelectionBox() {
 
@@ -12,14 +13,13 @@ const sf::Drawable* SelectionBox::getDrawable() const
     if (m_visible == true) {
         return &m_selectionBoxRectangleShape;
     }
-
     return nullptr;
 }
 
-void SelectionBox::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState)
+void SelectionBox::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables)
 {
     createOrModifySelectionBox(view, keyboardAndMouseState, window);
-    updateUnitsWithinOrOutsideOfSelectionBox(window, keyboardAndMouseState);
+    updateUnitsWithinOrOutsideOfSelectionBox(window, keyboardAndMouseState, listOfSelectables);
     setVisible(keyboardAndMouseState);
 }
 
@@ -33,15 +33,22 @@ void SelectionBox::setVisible(const KeyboardAndMouseState& keyboardAndMouseState
     {
         m_visible = false;
     }
-
 }
-
 
 void SelectionBox::createOrModifySelectionBox(sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, const sf::RenderWindow& window) {
 
-    float thickness = 2.f;
-    //TO DO: selection box thickness depending on window zoom level.
+    //TO DO: refine selection box thickness depending on window zoom level so its better then this implimentation here.
+    float thickness = (view.getSize().x / 2.f) * (view.getSize().y / 2.f) / 60000.f;
+    if (thickness > 15.f) 
+    {
+        thickness = 15.f;
+    }
+    if (thickness < 1.f)
+    {
+        thickness = 1.f;
+    }
     m_selectionBoxRectangleShape.setOutlineThickness(thickness);
+
 
     if (keyboardAndMouseState.mouseLeft == true)
     {
@@ -52,42 +59,21 @@ void SelectionBox::createOrModifySelectionBox(sf::View& view, KeyboardAndMouseSt
 }
 
 // Placeholder. TODO: Selecting a unit should put an information graphic over the selectable unit which then displays HP and so on.
-void SelectionBox::updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState) {
-    /*
+void SelectionBox::updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, std::vector<Selectable*> &selectables) {
+
     for (size_t index = 0; index != selectables.size(); ++index)
     {
-        if (selectables[index].amISelected() && keyboardAndMouseState.mouseLeftReleased) {
-            selectables[index].setSelected(false);
+        if (selectables[index]->getSelected() && keyboardAndMouseState.mouseLeftReleased)
+        {
+            selectables[index]->setSelected(false);
         }
-        if (m_selectionBoxRectangleShape.getGlobalBounds().intersects(selectables[index].getGlobalBounds()) && keyboardAndMouseState.mouseLeftReleased) {
-            if (selectables[index].getSide() == 1)
-            {
-                selectables[index].setSelected(true);
-            }
+        if (m_selectionBoxRectangleShape.getGlobalBounds().intersects(selectables[index]->getGlobalBounds()) && keyboardAndMouseState.mouseLeftReleased)
+        {
+            selectables[index]->setSelected(true);
         }
         else if (keyboardAndMouseState.mouseLeftReleased && keyboardAndMouseState.currentMousePosition != keyboardAndMouseState.mousePositionInWindowWhenLeftMouseButtonWasLastPressed)
         {
-            selectables[index].setSelected(false);
+            selectables[index]->setSelected(false);
         }
-
-        if (selectables[index].amISelected()) {
-            selectables[index].setFillColor(sf::Color::Red);
-        }
-
-        if (!selectables[index].amISelected()) {
-            if (selectables[index].getSide() == 1)
-            {
-                selectables[index].setFillColor(sf::Color::White);
-            }
-            if (selectables[index].getSide() == 2)
-            {
-                selectables[index].setFillColor(sf::Color::Yellow);
-            }
-        }
-
-        if (keyboardAndMouseState.mouseRightReleased && keyboardAndMouseState.currentMousePosition == keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonWasLastPressed && selectables[index].amISelected())
-        {
-            selectables[index].setMovementDestination(keyboardAndMouseState.mousePositionInWorldWhenRightMouseButtonWasLastPressed);
-        }
-    }*/
+    }
 }

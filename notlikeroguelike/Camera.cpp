@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-void Camera::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState)
+void Camera::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables)
 {
     scrollCameraView(deltaTime, window, keyboardAndMouseState);
     zoomCameraView(deltaTime, keyboardAndMouseState);

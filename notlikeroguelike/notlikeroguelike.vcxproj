@@ -89,6 +89,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Selectable.cpp" />
     <ClCompile Include="SelectionBox.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +97,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collidable.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="KeyboardAndMouseState.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Selectable.h" />
     <ClInclude Include="SelectionBox.h" />
     <ClInclude Include="Updatable.h" />
   </ItemGroup>

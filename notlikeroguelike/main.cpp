@@ -10,7 +10,6 @@
 #include <cmath>
 #include <random>
 
-
 void events(sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, sf::View& view) {
     sf::Event event;
     keyboardAndMouseState.mouseLeftReleased = false;
@@ -123,32 +122,33 @@ void events(sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseSta
 
 //TO DO: Make a procedural terrain generator. and remove this lol.
 
-
-
-
-
-void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables, std::vector<const Renderable*>& listOfRenderables)
+void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables, std::vector<const Renderable*>& listOfRenderables, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables)
 {
 
-    for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index) {
-        PlayerClass* newCharacter = new PlayerClass({ static_cast<float>(rand() % 4000),static_cast<float>(rand() % 4000) }, (rand() % 2) + 1);
+    for (size_t index = (static_cast<size_t>(rand() % 500) + 1); index != 0; --index)
+    {
+        PlayerClass* newCharacter = new PlayerClass({ static_cast<float>(rand() % 4000),static_cast<float>(rand() % 4000) }, (rand() % 5));
         updatables.emplace_back(newCharacter);
         listOfRenderables.push_back(newCharacter);
+        listOfCollidables.push_back(newCharacter);
+        listOfSelectables.push_back(newCharacter);
+
     }
     SelectionBox* selectionBox = new SelectionBox;
 
     listOfRenderables.push_back(selectionBox);
     updatables.emplace_back(selectionBox);
+    listOfCollidables.push_back(selectionBox);
 
 }
 
-
-void generateLevel(std::vector<int>& level) {
-    for (size_t index = 16384; index != 0; --index) {
+void generateLevel(std::vector<int>& level)
+{
+    for (size_t index = 16384; index != 0; --index)
+    {
         level.push_back(rand() % 5);
     }
 }
-
 
 int main()
 {
@@ -167,11 +167,13 @@ int main()
     std::vector<int> level;
     generateLevel(level);
 
-    std::vector<std::unique_ptr<Updatable>> updatables;
+    std::vector<std::unique_ptr<Updatable>> listOfUpdatables;
     std::vector<const Renderable*> listOfRenderables;
-    prepLevel(updatables, listOfRenderables);
+    std::vector<const Collidable*> listOfCollidables;
+    std::vector<Selectable*> listOfSelectables;
+    prepLevel(listOfUpdatables, listOfRenderables, listOfCollidables, listOfSelectables);
 
-    updatables.emplace_back(playerView);
+    listOfUpdatables.emplace_back(playerView);
 
     float deltaTime;
     while (mainWindow.isOpen())
@@ -179,9 +181,9 @@ int main()
         deltaTime = deltaTimeClock.restart().asSeconds();
         events(mainWindow, keyboardAndMouseState, *playerView->getView());
 
-        for (size_t index = 0; index != updatables.size(); ++index)
+        for (size_t index = 0; index != listOfUpdatables.size(); ++index)
         {
-            updatables[index]->update(deltaTime, mainWindow, *playerView->getView(), keyboardAndMouseState);
+            listOfUpdatables[index]->update(deltaTime, mainWindow, *playerView->getView(), keyboardAndMouseState, listOfCollidables, listOfSelectables);
         }
 
         mainWindow.setView(*playerView->getView());
@@ -195,6 +197,5 @@ int main()
         }
         mainWindow.display();
     }
-
     return 0;
 }
