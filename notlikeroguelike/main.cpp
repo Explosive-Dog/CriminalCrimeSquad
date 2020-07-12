@@ -125,23 +125,25 @@ void events(sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseSta
 void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables, std::vector<const Renderable*>& listOfRenderables, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables)
 {
 
-    for (size_t index = (static_cast<size_t>(rand() % 500) + 1); index != 0; --index)
+    for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index)
     {
         PlayerClass* newCharacter = new PlayerClass({ static_cast<float>(rand() % 4000),static_cast<float>(rand() % 4000) }, (rand() % 5));
         updatables.emplace_back(newCharacter);
         listOfRenderables.push_back(newCharacter);
         listOfCollidables.push_back(newCharacter);
-        listOfSelectables.push_back(newCharacter);
-
+        if (newCharacter->getSide() == 1)
+        {
+            listOfSelectables.push_back(newCharacter);
+        }
     }
     SelectionBox* selectionBox = new SelectionBox;
 
     listOfRenderables.push_back(selectionBox);
     updatables.emplace_back(selectionBox);
-    listOfCollidables.push_back(selectionBox);
 
 }
 
+/*
 void generateLevel(std::vector<int>& level)
 {
     for (size_t index = 16384; index != 0; --index)
@@ -149,6 +151,7 @@ void generateLevel(std::vector<int>& level)
         level.push_back(rand() % 5);
     }
 }
+*/
 
 int main()
 {
@@ -164,8 +167,8 @@ int main()
     KeyboardAndMouseState keyboardAndMouseState;
     Camera* playerView = new Camera;
 
-    std::vector<int> level;
-    generateLevel(level);
+    //std::vector<int> level;
+    //generateLevel(level);
 
     std::vector<std::unique_ptr<Updatable>> listOfUpdatables;
     std::vector<const Renderable*> listOfRenderables;

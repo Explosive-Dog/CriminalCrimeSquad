@@ -26,6 +26,13 @@ public:
 
     void update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables) override;
 
+    void checkCollidables(std::vector<const Collidable*> listOfCollidables) override;
+
+    void onCollide(const Collidable*) override;
+
+    sf::FloatRect getCollidable()const override;
+
+    void setSideIAmOnColour(int side);
 
 private:
 

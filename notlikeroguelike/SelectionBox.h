@@ -5,7 +5,7 @@
 #include "Updatable.h"
 #include "Renderable.h"
 
-class SelectionBox : public Updatable, public Renderable, public Collidable
+class SelectionBox : public Updatable, public Renderable
 {
 
 public:

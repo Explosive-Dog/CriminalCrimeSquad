@@ -59,7 +59,7 @@ void SelectionBox::createOrModifySelectionBox(sf::View& view, KeyboardAndMouseSt
 }
 
 // Placeholder. TODO: Selecting a unit should put an information graphic over the selectable unit which then displays HP and so on.
-void SelectionBox::updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, std::vector<Selectable*> &selectables) {
+void SelectionBox::updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, std::vector<Selectable*>& selectables) {
 
     for (size_t index = 0; index != selectables.size(); ++index)
     {
