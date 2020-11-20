@@ -87,11 +87,11 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
         }
         if (event.key.code == sf::Keyboard::Key::W) {
             vertical += 1.f;
-            verticalBeingPressed = false;
+            verticalBeingPressed = true;
         }
         if (event.key.code == sf::Keyboard::Key::S) {
             vertical += -1.f;
-            verticalBeingPressed = false;
+            verticalBeingPressed = true;
         }
     }
     if (event.type == sf::Event::EventType::KeyReleased)
