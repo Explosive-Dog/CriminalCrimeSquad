@@ -10,7 +10,7 @@ public:
 
 	virtual void onCollide(const Collidable*) = 0;
 
-	virtual void checkCollidables(std::vector<const Collidable*> listOfCollidables) = 0;
+	virtual void checkCollidables(std::vector<const Collidable*> vectorOfCollidables) = 0;
 
 protected:
 	bool m_colliding = false;

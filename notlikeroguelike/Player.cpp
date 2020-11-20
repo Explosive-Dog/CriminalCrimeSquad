@@ -5,7 +5,7 @@ PlayerClass::PlayerClass(sf::Vector2f position, int sideIAmOn) {
     
     setSide(sideIAmOn);
     setPosition(position);
-    setSize({ 16.f,16.f });
+    setSize({ 40.f,40.f });
     setOrigin(getSize().x/2,getSize().y/2 );
     setMovementDestination(getPosition());
     setSideIAmOnColour(sideIAmOn);
@@ -78,19 +78,19 @@ void PlayerClass::onCollide(const Collidable*)
     setFillColor(sf::Color::White);
 }
 
-void PlayerClass::checkCollidables(std::vector<const Collidable*> listOfCollidables)
+void PlayerClass::checkCollidables(std::vector<const Collidable*> vectorOfCollidables)
 {
     m_colliding = false;
-    for (size_t index = 0; index != listOfCollidables.size(); ++index)
+    for (size_t index = 0; index != vectorOfCollidables.size(); ++index)
     {
-        if (listOfCollidables[index] == this)
+        if (vectorOfCollidables[index] == this)
         {
             continue;
         }
-        if (getCollidable().intersects(listOfCollidables[index]->getCollidable()))
+        if (getCollidable().intersects(vectorOfCollidables[index]->getCollidable()))
         {
             m_colliding = true;
-            onCollide(listOfCollidables[index]);
+            onCollide(vectorOfCollidables[index]);
         }
     }
     if (m_colliding == false)
@@ -99,9 +99,9 @@ void PlayerClass::checkCollidables(std::vector<const Collidable*> listOfCollidab
     }
 }
 
-void PlayerClass::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables)
+void PlayerClass::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& vectorOfCollidables, std::vector<Selectable*>& vectorOfSelectables)
 { 
-    checkCollidables(listOfCollidables);
+    checkCollidables(vectorOfCollidables);
 
     float moveX = 0.f, moveY = 0.f;
     moveX = (getMovementDestination().x - getPosition().x) / 2;

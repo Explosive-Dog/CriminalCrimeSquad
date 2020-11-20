@@ -10,7 +10,12 @@ public:
 
     virtual ~Camera() = default;
 
-    void update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables) override;
+    void update(const float deltaTime,
+                const sf::RenderWindow& window,
+                sf::View& view,
+                KeyboardAndMouseState& keyboardAndMouseState, 
+                std::vector<const Collidable*>& vectorOfCollidables,
+                std::vector<Selectable*>& vectorOfSelectables) override;
 
     sf::View* getView();
 

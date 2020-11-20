@@ -1,5 +1,4 @@
 #include "SelectionBox.h"
-#include <iostream>
 
 SelectionBox::SelectionBox() {
 
@@ -14,6 +13,11 @@ const sf::Drawable* SelectionBox::getDrawable() const
         return &m_selectionBoxRectangleShape;
     }
     return nullptr;
+}
+
+const unsigned int SelectionBox::getRenderPriority() const 
+{
+    return m_renderPriority;
 }
 
 void SelectionBox::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables)

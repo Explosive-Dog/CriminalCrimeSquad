@@ -1,6 +1,11 @@
 #include "Camera.h"
 
-void Camera::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables)
+void Camera::update(const float deltaTime, 
+                    const sf::RenderWindow& window,
+                    sf::View& view,
+                    KeyboardAndMouseState& keyboardAndMouseState,
+                    std::vector<const Collidable*>& vectorOfCollidables,
+                    std::vector<Selectable*>& vectorOfSelectables)
 {
     scrollCameraView(deltaTime, window, keyboardAndMouseState);
     zoomCameraView(deltaTime, keyboardAndMouseState);
@@ -13,16 +18,16 @@ sf::View* Camera::getView()
 
 void Camera::scrollCameraView(const float deltaTime, const sf::RenderWindow& window,KeyboardAndMouseState& keyboardAndMouseState)
 {
-    if (keyboardAndMouseState.keyUp) {
+    if (keyboardAndMouseState.arrowKeyUp) {
         playerView.move(0.f, -playerView.getSize().y * deltaTime);
     }
-    if (keyboardAndMouseState.keyDown) {
+    if (keyboardAndMouseState.arrowKeyDown) {
         playerView.move(0.f, playerView.getSize().y * deltaTime);
     }
-    if (keyboardAndMouseState.keyLeft) {
+    if (keyboardAndMouseState.arrowKeyLeft) {
         playerView.move(-playerView.getSize().x * deltaTime, 0.f);
     }
-    if (keyboardAndMouseState.keyRight) {
+    if (keyboardAndMouseState.arrowKeyRight) {
         playerView.move(playerView.getSize().x * deltaTime, 0.f);
     }
 

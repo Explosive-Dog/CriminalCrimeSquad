@@ -24,9 +24,14 @@ public:
 
     sf::FloatRect getGlobalBounds() const override;
 
-    void update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables) override;
+    void update(const float deltaTime,
+                const sf::RenderWindow& window,
+                sf::View& view,
+                KeyboardAndMouseState& keyboardAndMouseState,
+                std::vector<const Collidable*>& vectorOfCollidables,
+                std::vector<Selectable*>& vectorOfSelectables) override;
 
-    void checkCollidables(std::vector<const Collidable*> listOfCollidables) override;
+    void checkCollidables(std::vector<const Collidable*> vectorOfCollidables) override;
 
     void onCollide(const Collidable*) override;
 

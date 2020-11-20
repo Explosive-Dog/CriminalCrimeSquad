@@ -10,5 +10,8 @@ public:
 
 	virtual const sf::Drawable* getDrawable() const = 0;
 
+	virtual const unsigned int getRenderPriority() const = 0;
+
+private:
+
 };
-	

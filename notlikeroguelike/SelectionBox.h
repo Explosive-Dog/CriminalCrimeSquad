@@ -1,7 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "KeyboardAndMouseState.h"
-#include "Player.h"
 #include "Updatable.h"
 #include "Renderable.h"
 
@@ -16,7 +14,13 @@ public:
 
 	const sf::Drawable* getDrawable() const;
 
-	void update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables) override;
+	const unsigned int getRenderPriority() const;
+
+	void update(const float deltaTime,
+				const sf::RenderWindow& window,
+				sf::View& view, KeyboardAndMouseState& keyboardAndMouseState,
+				std::vector<const Collidable*>& vectorOfCollidables,
+				std::vector<Selectable*>& vectorOfSelectables) override;
 
 private:
 
@@ -30,6 +34,7 @@ private:
 	void updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, std::vector<Selectable*> &selectables);
 
 	bool m_visible = false;
+	unsigned int m_renderPriority = 5;
 
 };
 

@@ -9,6 +9,10 @@ public:
 
 	virtual ~Updatable() = default;
 
-	virtual void update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables) = 0;
+	virtual void update(const float deltaTime, 
+						const sf::RenderWindow& window, 
+						sf::View& view, KeyboardAndMouseState& keyboardAndMouseState,
+						std::vector<const Collidable*>& vectorOfCollidables,
+						std::vector<Selectable*>& vectorOfSelectables) = 0;
 
 };
