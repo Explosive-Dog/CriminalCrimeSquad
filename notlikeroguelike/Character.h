@@ -23,11 +23,7 @@ public:
 
     bool playerControlled();
 
-    virtual void update(const float deltaTime,
-        const sf::RenderWindow& window,
-        sf::View& view, KeyboardAndMouseState& keyboardAndMouseState,
-        std::vector<const Collidable*>& vectorOfCollidables,
-        std::vector<Selectable*>& vectorOfSelectables);
+    virtual void update(const float deltaTime, UpdateParameters& updateParameters);
 
 private:
 

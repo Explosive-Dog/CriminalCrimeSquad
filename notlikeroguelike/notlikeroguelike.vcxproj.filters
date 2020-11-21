@@ -39,6 +39,9 @@
     <ClCompile Include="KeyboardAndMouseState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Updatable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SelectionBox.h">

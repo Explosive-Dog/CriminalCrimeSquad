@@ -1,6 +1,6 @@
 #include "Projectile.h"
 
-void Projectile::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& vectorOfCollidables, std::vector<Selectable*>& vectorOfSelectables)
+void Projectile::update(const float deltaTime, UpdateParameters& updateParameters)
 {
     move({ movementMomentum.x * deltaTime, movementMomentum.y * deltaTime });
     if (5 < projectileTimer.getElapsedTime().asSeconds())

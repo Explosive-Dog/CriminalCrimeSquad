@@ -20,11 +20,11 @@ const unsigned int SelectionBox::getRenderPriority() const
     return m_renderPriority;
 }
 
-void SelectionBox::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& listOfCollidables, std::vector<Selectable*>& listOfSelectables)
+void SelectionBox::update(const float deltaTime, UpdateParameters& updateParameters)
 {
-    createOrModifySelectionBox(view, keyboardAndMouseState, window);
-    updateUnitsWithinOrOutsideOfSelectionBox(window, keyboardAndMouseState, listOfSelectables);
-    setVisible(keyboardAndMouseState);
+    createOrModifySelectionBox(updateParameters.view, updateParameters.keyboardAndMouseState, updateParameters.window);
+    //updateUnitsWithinOrOutsideOfSelectionBox(updateParameters.window, updateParameters.keyboardAndMouseState, updateParameters.);
+    setVisible(updateParameters.keyboardAndMouseState);
 }
 
 void SelectionBox::setVisible(const KeyboardAndMouseState& keyboardAndMouseState)

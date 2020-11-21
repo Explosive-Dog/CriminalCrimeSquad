@@ -78,19 +78,19 @@ void PlayerClass::onCollide(const Collidable*)
     setFillColor(sf::Color::White);
 }
 
-void PlayerClass::checkCollidables(std::vector<const Collidable*> vectorOfCollidables)
+void PlayerClass::checkCollidables(std::vector<const Collidable*> collidables)
 {
     m_colliding = false;
-    for (size_t index = 0; index != vectorOfCollidables.size(); ++index)
+    for (size_t index = 0; index != collidables.size(); ++index)
     {
-        if (vectorOfCollidables[index] == this)
+        if (collidables[index] == this)
         {
             continue;
         }
-        if (getCollidable().intersects(vectorOfCollidables[index]->getCollidable()))
+        if (getCollidable().intersects(collidables[index]->getCollidable()))
         {
             m_colliding = true;
-            onCollide(vectorOfCollidables[index]);
+            onCollide(collidables[index]);
         }
     }
     if (m_colliding == false)
@@ -99,17 +99,17 @@ void PlayerClass::checkCollidables(std::vector<const Collidable*> vectorOfCollid
     }
 }
 
-void PlayerClass::update(const float deltaTime, const sf::RenderWindow& window, sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, std::vector<const Collidable*>& vectorOfCollidables, std::vector<Selectable*>& vectorOfSelectables)
+void PlayerClass::update(const float deltaTime, UpdateParameters& updateParameters)
 { 
-    checkCollidables(vectorOfCollidables);
+    checkCollidables(updateParameters.collidables);
 
     float moveX = 0.f, moveY = 0.f;
     moveX = (getMovementDestination().x - getPosition().x) / 2;
     moveY = (getMovementDestination().y - getPosition().y) / 2;
     move(moveX * deltaTime, moveY * deltaTime);
 
-    if (keyboardAndMouseState.mouseRightReleased && keyboardAndMouseState.currentMousePosition == keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonWasLastPressed && getSelected())
+    if (updateParameters.keyboardAndMouseState.mouseRightReleased && updateParameters.keyboardAndMouseState.currentMousePosition == updateParameters.keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonWasLastPressed && getSelected())
     {
-        setMovementDestination(keyboardAndMouseState.mousePositionInWorldWhenRightMouseButtonWasLastPressed);
+        setMovementDestination(updateParameters.keyboardAndMouseState.mousePositionInWorldWhenRightMouseButtonWasLastPressed);
     }
 }

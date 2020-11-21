@@ -10,20 +10,15 @@ public:
 
     virtual ~Camera() = default;
 
-    void update(const float deltaTime,
-                const sf::RenderWindow& window,
-                sf::View& view,
-                KeyboardAndMouseState& keyboardAndMouseState, 
-                std::vector<const Collidable*>& vectorOfCollidables,
-                std::vector<Selectable*>& vectorOfSelectables) override;
+    void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
     sf::View* getView();
 
 private:
 
-    void scrollCameraView(const float deltaTime, const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState);
+    void scrollCameraView(const float deltaTime, UpdateParameters& updateParameters);
 
-    void zoomCameraView(const float deltaTime, const KeyboardAndMouseState& keyboardAndMouseState);
+    void zoomCameraView(const float deltaTime, UpdateParameters& updateParameters);
 
     sf::View playerView;
 };

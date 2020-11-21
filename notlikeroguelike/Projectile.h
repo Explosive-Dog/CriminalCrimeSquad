@@ -11,12 +11,7 @@ public:
 
 	virtual ~Projectile() = default;
 
-	void update(const float deltaTime,
-                const sf::RenderWindow& window,
-                sf::View& view,
-                KeyboardAndMouseState& keyboardAndMouseState,
-                std::vector<const Collidable*>& vectorOfCollidables,
-                std::vector<Selectable*>& vectorOfSelectables);
+	void update(const float deltaTime, UpdateParameters& updateParameters);
 
     bool getActive();
 

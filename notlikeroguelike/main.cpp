@@ -104,10 +104,12 @@ int main()
         deltaTime = deltaTimeClock.restart().asSeconds();
         events(mainWindow, keyboardAndMouseState, *playerView->getView());
 
-
+        
+        UpdateParameters updateParameters(mainWindow, *playerView->getView(), keyboardAndMouseState, collidables, selectables);
         for (size_t index = 0; index != updatables.size(); ++index)
         {
-            updatables[index]->update(deltaTime, mainWindow, *playerView->getView(), keyboardAndMouseState, collidables, selectables);
+
+            updatables[index]->update(deltaTime, updateParameters);
         }
 
         mainWindow.setView(*playerView->getView());

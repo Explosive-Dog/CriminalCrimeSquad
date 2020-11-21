@@ -42,11 +42,7 @@ bool Character::playerControlled()
     return m_playerControlled;
 }
 
-void Character::update(const float deltaTime,
-    const sf::RenderWindow& window,
-    sf::View& view, KeyboardAndMouseState& keyboardAndMouseState,
-    std::vector<const Collidable*>& vectorOfCollidables,
-    std::vector<Selectable*>& vectorOfSelectables)
+void Character::update(const float deltaTime, UpdateParameters& updateParameters)
 {
     m_characterRectangleShape.setPosition(m_rigidBody->GetPosition().x, m_rigidBody->GetPosition().y);
     m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
@@ -54,17 +50,17 @@ void Character::update(const float deltaTime,
     if (playerControlled()) {
         m_characterRectangleShape.setFillColor(sf::Color::Red);
 
-        if (keyboardAndMouseState.verticalBeingPressed == false) {
-            keyboardAndMouseState.vertical /= 2.f;
+        if (updateParameters.keyboardAndMouseState.verticalBeingPressed == false) {
+            updateParameters.keyboardAndMouseState.vertical /= 2.f;
         }
 
-        if (keyboardAndMouseState.horizontalBeingPressed == false) {
-            keyboardAndMouseState.horizontal /= 2.f;
+        if (updateParameters.keyboardAndMouseState.horizontalBeingPressed == false) {
+            updateParameters.keyboardAndMouseState.horizontal /= 2.f;
         }
 
-        b2Vec2 forceToMoveBy = { keyboardAndMouseState.horizontal * m_moveSpeed , -keyboardAndMouseState.vertical * m_moveSpeed };
-        std::cout << "X: " << keyboardAndMouseState.horizontal << std::endl;
-        std::cout << "Y: " << keyboardAndMouseState.vertical << std::endl;
+        b2Vec2 forceToMoveBy = { updateParameters.keyboardAndMouseState.horizontal * m_moveSpeed , -updateParameters.keyboardAndMouseState.vertical * m_moveSpeed };
+        std::cout << "X: " << updateParameters.keyboardAndMouseState.horizontal << std::endl;
+        std::cout << "Y: " << updateParameters.keyboardAndMouseState.vertical << std::endl;
         // m_rigidBody->SetLinearVelocity(forceToMoveBy);
 
 
