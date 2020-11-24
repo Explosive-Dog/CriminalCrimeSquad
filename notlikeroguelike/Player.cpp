@@ -1,115 +1,57 @@
 #include "Player.h"
-#include <SFML/Graphics.hpp>
+#include <iostream>
 
-PlayerClass::PlayerClass(sf::Vector2f position, int sideIAmOn) {
+Player::Player(b2World& world, float positionX, float positionY, Camera& camera)
+    : Character(world, positionX, positionY), m_camera(camera) {
     
-    setSide(sideIAmOn);
-    setPosition(position);
-    setSize({ 40.f,40.f });
-    setOrigin(getSize().x/2,getSize().y/2 );
-    setMovementDestination(getPosition());
-    setSideIAmOnColour(sideIAmOn);
 }
 
-const sf::Drawable* PlayerClass::getDrawable() const
-{
-    return this;
-}
+void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
 
-void PlayerClass::setMovementDestination(sf::Vector2f newDestination)
-{
-    m_movementDestination = newDestination;
-}
+    Character::update(deltaTime, updateParameters);
 
-sf::Vector2f PlayerClass::getMovementDestination()
-{
-    return m_movementDestination;
-}
+    m_characterRectangleShape.setFillColor(sf::Color::Red);
 
-void PlayerClass::setSide(int newSide)
-{
-    m_sideIAmOn = newSide;
-}
+    float horizontalMovement = 0.f;
+    float verticalMovement = 0.f;
+    float rotationalMovement = 0.f;
 
-int PlayerClass::getSide()
-{
-    return m_sideIAmOn;
-}
-
-sf::FloatRect PlayerClass::getGlobalBounds() const
-{
-    return sf::RectangleShape::getGlobalBounds();
-}
-
-sf::FloatRect PlayerClass::getCollidable()const 
-{
-    return getGlobalBounds();
-}
-
-void PlayerClass::setSideIAmOnColour(int side)
-{
-    switch (side)
-    {
-    case 0:
-        setFillColor(sf::Color::Green);
-        break;
-    case 1:
-        setFillColor(sf::Color::Blue);
-        break;
-    case 2:
-        setFillColor(sf::Color::Red);
-        break;
-    case 3:
-        setFillColor(sf::Color::Magenta);
-        break;
-    case 4:
-        setFillColor(sf::Color::Cyan);
-        break;
-    case 5:
-        setFillColor(sf::Color::Yellow);
-        break;
-    default:
-        break;
+    if (updateParameters.keyboardAndMouseState.moveLeftKeyPressed) {
+        horizontalMovement -= 1.f;
     }
-}
-
-void PlayerClass::onCollide(const Collidable*)
-{
-    setFillColor(sf::Color::White);
-}
-
-void PlayerClass::checkCollidables(std::vector<const Collidable*> collidables)
-{
-    m_colliding = false;
-    for (size_t index = 0; index != collidables.size(); ++index)
-    {
-        if (collidables[index] == this)
-        {
-            continue;
-        }
-        if (getCollidable().intersects(collidables[index]->getCollidable()))
-        {
-            m_colliding = true;
-            onCollide(collidables[index]);
-        }
+    if (updateParameters.keyboardAndMouseState.moveRightKeyPressed) {
+        horizontalMovement += 1.f;
     }
-    if (m_colliding == false)
-    {
-        setSideIAmOnColour(getSide());
+    if (updateParameters.keyboardAndMouseState.moveDownKeyPressed) {
+        verticalMovement -= 1.f;
     }
-}
-
-void PlayerClass::update(const float deltaTime, UpdateParameters& updateParameters)
-{ 
-    checkCollidables(updateParameters.collidables);
-
-    float moveX = 0.f, moveY = 0.f;
-    moveX = (getMovementDestination().x - getPosition().x) / 2;
-    moveY = (getMovementDestination().y - getPosition().y) / 2;
-    move(moveX * deltaTime, moveY * deltaTime);
-
-    if (updateParameters.keyboardAndMouseState.mouseRightReleased && updateParameters.keyboardAndMouseState.currentMousePosition == updateParameters.keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonWasLastPressed && getSelected())
-    {
-        setMovementDestination(updateParameters.keyboardAndMouseState.mousePositionInWorldWhenRightMouseButtonWasLastPressed);
+    if (updateParameters.keyboardAndMouseState.moveUpKeyPressed) {
+        verticalMovement += 1.f;
     }
+    if (updateParameters.keyboardAndMouseState.rotateClockwise) {
+        rotationalMovement -= 1.f;
+    }
+    if (updateParameters.keyboardAndMouseState.rotateCounterClockwise) {
+        rotationalMovement += 1.f;
+    }
+
+    b2Vec2 forceToMoveBy = { horizontalMovement * m_moveSpeedMultiplier , verticalMovement * m_moveSpeedMultiplier };
+    float forceToRotateBy = rotationalMovement * m_rotationSpeedMultiplier;
+
+    std::cout << "X: " << updateParameters.keyboardAndMouseState.horizontal << std::endl;
+    std::cout << "Y: " << updateParameters.keyboardAndMouseState.vertical << std::endl;
+    std::cout << m_rigidBody->GetMass() << std::endl;
+    std::cout << "A: " << updateParameters.keyboardAndMouseState.moveLeftKeyPressed <<
+        " S: " << updateParameters.keyboardAndMouseState.moveDownKeyPressed <<
+        " D: " << updateParameters.keyboardAndMouseState.moveRightKeyPressed <<
+        " W: " << updateParameters.keyboardAndMouseState.moveUpKeyPressed << std::endl;
+    // m_rigidBody->SetLinearVelocity(forceToMoveBy);
+    b2Vec2 vel = m_rigidBody->GetLinearVelocity();
+
+    //std::cout << "VEL X: " << vel.x << std::endl;
+    //std::cout << "VEL Y: " << vel.y << std::endl;
+
+    m_rigidBody->ApplyForceToCenter(forceToMoveBy, true);
+    m_rigidBody->ApplyAngularImpulse(forceToRotateBy, true);
+    m_camera.getView()->setCenter(m_characterRectangleShape.getPosition());
 }

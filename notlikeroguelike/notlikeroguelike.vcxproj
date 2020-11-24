@@ -94,7 +94,6 @@
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Selectable.cpp" />
     <ClCompile Include="SelectionBox.cpp" />
-    <ClCompile Include="Updatable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />

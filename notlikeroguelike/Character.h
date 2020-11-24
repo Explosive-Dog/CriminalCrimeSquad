@@ -19,28 +19,23 @@ public:
 
     const unsigned int getRenderPriority() const;
 
-    void setPlayerControlled(bool trueOrFalse);
+    void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
-    bool playerControlled();
-
-    virtual void update(const float deltaTime, UpdateParameters& updateParameters);
-
-private:
-
-    bool m_playerControlled = false;
+protected:
 
     std::string m_firstName = "Firstname";
     std::string m_lastName = "Lastname";
     float m_hp = 1000.f;
 
     // In Kilograms
-    float m_weight = 65.f;
+    float m_densityMultiplier = 1000.f;
 
-    // In Millimetres
-    float m_shoulderWidth = 440.f;
-    float m_chestSize = 110.f;
+    // In Metres
+    float m_shoulderWidth = 0.44f;
+    float m_chestSize = 0.15f;
 
-    float m_moveSpeed = 10000000.f;
+    float m_moveSpeedMultiplier = 1000.f;
+    float m_rotationSpeedMultiplier = 1.f;
 
     bool m_usingPhysics = true;
     b2BodyDef m_rigidBodyDef;

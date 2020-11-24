@@ -16,6 +16,14 @@ struct KeyboardAndMouseState
     bool mouseMiddleReleased = false;
     bool horizontalBeingPressed = false;
     bool verticalBeingPressed = false;
+    bool spaceBarPressed = false;
+
+    bool moveLeftKeyPressed = false;
+    bool moveRightKeyPressed = false;
+    bool moveDownKeyPressed = false;
+    bool moveUpKeyPressed = false;
+    bool rotateClockwise = false;
+    bool rotateCounterClockwise = false;
 
     sf::Vector2f mousePositionInWorldWhenRightMouseButtonWasLastPressed{ 0, 0 };
     sf::Vector2f mousePositionInWorldWhenLeftMouseButtonWasLastPressed{ 0, 0 };

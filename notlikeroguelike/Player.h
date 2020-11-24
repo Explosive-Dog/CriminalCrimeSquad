@@ -1,42 +1,14 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include "Updatable.h"
-#include "Renderable.h"
 
+#include "Camera.h"
+#include "Character.h"
 
-class PlayerClass : public sf::RectangleShape , public Updatable, public Renderable, public Selectable, public Collidable
+class Player : public Character
 {
 public:
-
-    PlayerClass(sf::Vector2f position, int sideIAmOn);
-
-    virtual ~PlayerClass() = default;
-
-    const sf::Drawable* getDrawable() const;
-    
-    void setMovementDestination(sf::Vector2f);
-
-    sf::Vector2f getMovementDestination();
-
-    void setSide(int newSide);
-
-    int getSide();
-
-    sf::FloatRect getGlobalBounds() const override;
-
-    void update(const float deltaTime, UpdateParameters& updateParameters) override;
-
-    void checkCollidables(std::vector<const Collidable*> vectorOfCollidables) override;
-
-    void onCollide(const Collidable*) override;
-
-    sf::FloatRect getCollidable()const override;
-
-    void setSideIAmOnColour(int side);
-
+	Player(b2World& world, float positionX, float positionY, Camera& camera);
+	virtual ~Player() = default;
+	void update(const float deltaTime, UpdateParameters& updateParameters) override;
 private:
-
-    int m_sideIAmOn = 0;
-    sf::Vector2f m_movementDestination = { 0.f, 0.f };
-
+	Camera& m_camera;
 };
