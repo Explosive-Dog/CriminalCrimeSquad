@@ -68,7 +68,6 @@ else()
     target_link_libraries(
         notlikeroguelike
         PUBLIC
-        box2d
         sfml-graphics
         sfml-system
         sfml-window
