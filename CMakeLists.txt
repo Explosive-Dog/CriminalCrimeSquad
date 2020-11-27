@@ -1,16 +1,15 @@
+# cmake -DBOX2D_LIB_DIR_PREFIX="C:\Source\box2d-2.4.1\build\bin" -DSFML_LIB_DIR_PREFIX="C:\Source\SFML-2.5.1\build\lib" -DBOX2D_INCLUDE_DIR="C:\Source\box2d-2.4.1\include" -DSFML_INCLUDE_DIR="C:\Source\SFML-2.5.1\include" -DCMAKE_BUILD_TYPE=Debug ../
+
 cmake_minimum_required(VERSION 3.16)
 project(notlikeroguelike)
 
+file(GLOB_RECURSE GWAN_HEAD "include/*.h")
+file(GLOB_RECURSE GWAN_SOURCE "source/*.cpp")
+
 add_executable(
     notlikeroguelike
-    source/main.cpp
-    source/Camera.cpp
-    source/Character.cpp
-    source/KeyboardAndMouseState.cpp
-    source/Player.cpp
-    source/Projectile.cpp
-    source/Selectable.cpp
-    source/SelectionBox.cpp
+    ${GWAN_SOURCE}
+    ${GWAN_HEAD}
 )
 
 target_include_directories(
