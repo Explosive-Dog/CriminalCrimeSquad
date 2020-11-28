@@ -23,16 +23,16 @@ void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
         horizontalMovement += 1.f;
     }
     if (updateParameters.keyboardAndMouseState.moveDownKeyPressed) {
-        verticalMovement -= 1.f;
-    }
-    if (updateParameters.keyboardAndMouseState.moveUpKeyPressed) {
         verticalMovement += 1.f;
     }
+    if (updateParameters.keyboardAndMouseState.moveUpKeyPressed) {
+        verticalMovement -= 1.f;
+    }
     if (updateParameters.keyboardAndMouseState.rotateClockwise) {
-        rotationalMovement -= 1.f;
+        rotationalMovement += 1.f;
     }
     if (updateParameters.keyboardAndMouseState.rotateCounterClockwise) {
-        rotationalMovement += 1.f;
+        rotationalMovement -= 1.f;
     }
 
     b2Vec2 forceToMoveBy = { horizontalMovement * m_moveSpeedMultiplier , verticalMovement * m_moveSpeedMultiplier };

@@ -1,12 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
 
-#include "Player.h"
-#include "Character.h"
-#include "SelectionBox.h"
-#include "KeyboardAndMouseState.h"
-#include "Renderable.h"
 #include "Camera.h"
+#include "Character.h"
+#include "Joinable.h"
+#include "KeyboardAndMouseState.h"
+#include "Player.h"
+#include "Renderable.h"
+#include "SelectionBox.h"
+#include "Weapon.h"
 
 #include <iostream>
 #include <string>
@@ -42,9 +44,21 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
 
     // put one player controlable units into the updatable and renderable vectors
     {
-        auto* newCharacter = new Player(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), camera);
+        float x = static_cast<float>(rand() % -10);
+        float y = static_cast<float>(rand() % -10);
+        auto* spear = new Weapon(physicsWorld, x + 1.f, y + 1.f);
+        auto* newCharacter = new Player(physicsWorld, x, y, camera);
+
+        b2RevoluteJointDef newJoint;
+        newJoint.bodyA = spear->getB2Body();
+        newJoint.bodyB = newCharacter->getB2Body();
+        newJoint.collideConnected = false;
+        physicsWorld.CreateJoint(&newJoint);
+        
         updatables.emplace_back(newCharacter);
         renderables.push_back(newCharacter);
+        updatables.emplace_back(spear);
+        renderables.push_back(spear);
     }
 
     // random units into the list, either player or non player controlled.
@@ -53,7 +67,6 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
         Character* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10));
         updatables.emplace_back(newCharacter);
         renderables.push_back(newCharacter);
-
     }
 
     // set up the selection box as part of the level generation.

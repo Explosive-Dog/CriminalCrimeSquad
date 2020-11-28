@@ -47,9 +47,9 @@ void SelectionBox::createOrModifySelectionBox(sf::View& view, KeyboardAndMouseSt
     {
         thickness = 15.f;
     }
-    if (thickness < 1.f)
+    if (thickness < 0.05f)
     {
-        thickness = 1.f;
+        thickness = 0.05f;
     }
     m_selectionBoxRectangleShape.setOutlineThickness(thickness);
 

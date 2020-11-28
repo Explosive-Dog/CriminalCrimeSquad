@@ -37,3 +37,7 @@ void Character::update(const float deltaTime, UpdateParameters& updateParameters
     m_characterRectangleShape.setPosition(m_rigidBody->GetPosition().x, m_rigidBody->GetPosition().y);
     m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
 }
+
+b2Body* Character::getB2Body() {
+    return m_rigidBody;
+}

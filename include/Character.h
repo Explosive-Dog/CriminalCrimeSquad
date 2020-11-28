@@ -2,11 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
 
+#include "Joinable.h"
 #include "Updatable.h"
 #include "Renderable.h"
 
 
-class Character : public Updatable, public Renderable
+class Character : public Updatable, public Renderable, public Joinable
 {
 
 public:
@@ -21,13 +22,14 @@ public:
 
     void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
+    b2Body* getB2Body() override;
+
 protected:
 
     std::string m_firstName = "Firstname";
     std::string m_lastName = "Lastname";
     float m_hp = 1000.f;
 
-    // In Kilograms
     float m_densityMultiplier = 1000.f;
 
     // In Metres
