@@ -4,7 +4,6 @@ void Camera::update(const float deltaTime, UpdateParameters& updateParameters)
 {
     scrollCameraView(deltaTime, updateParameters);
     zoomCameraView(deltaTime, updateParameters);
-    setCameraAtPlayer(updateParameters);
 }
 
 sf::View* Camera::getView()
@@ -57,13 +56,6 @@ void Camera::zoomCameraView(const float deltaTime, UpdateParameters& updateParam
     playerView.zoom(zoomLevel);
 }
 
-void Camera::setCameraAtPlayer(UpdateParameters& updateParameters)
-{
-    if (updateParameters.keyboardAndMouseState.spaceBarPressed) {
-        //TO DO: set the view to the player controlled character co-ordinates
-        playerView.setCenter({ 0.f,0.f });
-    }
-}
 
 Camera::Camera()
 {

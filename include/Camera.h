@@ -20,7 +20,6 @@ private:
 
     void zoomCameraView(const float deltaTime, UpdateParameters& updateParameters);
 
-    void setCameraAtPlayer(UpdateParameters& updateParameters);
-
     sf::View playerView;
+
 };
