@@ -20,6 +20,8 @@ Weapon::Weapon(b2World& world, float positionX, float positionY)
     m_characterRectangleShape.setOrigin(m_Width / 2.f, m_height / 2.f);
     m_characterRectangleShape.setPosition(positionX, positionY);
     m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
+
+    m_renderZLevel = m_initialRenderZLevel;
 }
 
 void Weapon::update(const float deltaTime, UpdateParameters& updateParameters)

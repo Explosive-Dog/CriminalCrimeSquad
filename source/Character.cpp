@@ -18,18 +18,15 @@ Character::Character(b2World &world, float positionX, float positionY) {
     m_characterRectangleShape.setSize({ m_shoulderWidth, m_chestSize });
     m_characterRectangleShape.setOrigin(m_shoulderWidth / 2.f, m_chestSize / 2.f);
     m_characterRectangleShape.setPosition(positionX, positionY);
-    m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));       
+    m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
+
+    m_renderZLevel = m_initialRenderZLevel;
     
 }
 
 const sf::Drawable* Character::getDrawable() const
 {
     return &m_characterRectangleShape;
-}
-
-const unsigned int Character::getRenderPriority() const
-{
-    return m_renderPriority;
 }
 
 void Character::update(const float deltaTime, UpdateParameters& updateParameters)

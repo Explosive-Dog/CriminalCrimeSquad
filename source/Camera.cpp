@@ -11,6 +11,7 @@ sf::View* Camera::getView()
     return &playerView;
 }
 
+/*
 void Camera::scrollCameraView(const float deltaTime, UpdateParameters& updateParameters)
 {
 
@@ -42,6 +43,7 @@ void Camera::scrollCameraView(const float deltaTime, UpdateParameters& updatePar
         playerView.move(difference);
     }
 }
+*/
 
 void Camera::zoomCameraView(const float deltaTime, UpdateParameters& updateParameters)
 {

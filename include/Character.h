@@ -18,8 +18,6 @@ public:
 
     const sf::Drawable* getDrawable() const;
 
-    const unsigned int getRenderPriority() const;
-
     void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
     b2Body* getB2Body() override;
@@ -35,6 +33,7 @@ protected:
     // In Metres
     float m_shoulderWidth = 0.44f;
     float m_chestSize = 0.15f;
+    float m_initialRenderZLevel = 2.f;
 
     float m_moveSpeedMultiplier = 1000.f;
     float m_rotationSpeedMultiplier = 1.f;
@@ -46,7 +45,6 @@ protected:
     b2FixtureDef m_fixtureDef;
 
     bool m_beingRendered = true;
-    unsigned int m_renderPriority = 10;
     sf::RectangleShape m_characterRectangleShape;
 
 };

@@ -9,13 +9,13 @@ struct UpdateParameters final
 {
 	const sf::RenderWindow& window;
 	sf::View& view;
-	KeyboardAndMouseState& keyboardAndMouseState;
+	const KeyboardAndMouseState& keyboardAndMouseState;
 	const std::vector<const Collidable*>& collidables;
 	const std::vector<Selectable*>& selectables;
 
 	UpdateParameters(const sf::RenderWindow& mainWindow,
 		sf::View& playerView,
-		KeyboardAndMouseState& gameKeyboardAndMouseState,
+		const KeyboardAndMouseState& gameKeyboardAndMouseState,
 		const std::vector<const Collidable*>& gameCollidables,
 		const std::vector<Selectable*>& gameSelectables)
 		: window(mainWindow),
@@ -25,7 +25,7 @@ struct UpdateParameters final
 		selectables(gameSelectables) 
 	
 	{
-		///
+		// Intentionaly Blank.
 	}
 };
 

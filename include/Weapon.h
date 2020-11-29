@@ -26,6 +26,7 @@ protected:
     // In Metres
     float m_Width = 0.03f;
     float m_height = 2.f;
+    float m_initialRenderZLevel = 1.25f;
 
     bool m_usingPhysics = true;
     b2BodyDef m_rigidBodyDef;
@@ -34,7 +35,7 @@ protected:
     b2FixtureDef m_fixtureDef;
 
     bool m_beingRendered = true;
-    unsigned int m_renderPriority = 10;
+
     sf::RectangleShape m_characterRectangleShape;
 
 };

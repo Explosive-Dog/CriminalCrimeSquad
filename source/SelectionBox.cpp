@@ -4,6 +4,7 @@ SelectionBox::SelectionBox() {
 
     m_selectionBoxRectangleShape.setOutlineColor(sf::Color::White);
     m_selectionBoxRectangleShape.setFillColor(sf::Color::Transparent);
+    m_renderZLevel = std::numeric_limits<float>::max();
 
 }
 
@@ -13,11 +14,6 @@ const sf::Drawable* SelectionBox::getDrawable() const
         return &m_selectionBoxRectangleShape;
     }
     return nullptr;
-}
-
-const unsigned int SelectionBox::getRenderPriority() const 
-{
-    return m_renderPriority;
 }
 
 void SelectionBox::update(const float deltaTime, UpdateParameters& updateParameters)
@@ -39,7 +35,7 @@ void SelectionBox::setVisible(const KeyboardAndMouseState& keyboardAndMouseState
     }
 }
 
-void SelectionBox::createOrModifySelectionBox(sf::View& view, KeyboardAndMouseState& keyboardAndMouseState, const sf::RenderWindow& window) {
+void SelectionBox::createOrModifySelectionBox(sf::View& view, const KeyboardAndMouseState& keyboardAndMouseState, const sf::RenderWindow& window) {
 
     //TO DO: refine selection box thickness depending on window zoom level so its better then this implimentation here.
     float thickness = (view.getSize().x / 2.f) * (view.getSize().y / 2.f) / 60000.f;

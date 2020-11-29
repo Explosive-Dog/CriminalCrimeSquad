@@ -10,11 +10,14 @@ public:
 
 	virtual const sf::Drawable* getDrawable() const = 0;
 
-	const unsigned int getRenderPriority() {
-		return m_renderPriority;
+	float getRenderZLevel() const {
+		return m_renderZLevel;
+	}
+
+	void setRenderZLevel(float newZLevel) {
+		m_renderZLevel = newZLevel;
 	}
 
 protected:
-
-	unsigned int m_renderPriority = 99;
+	float m_renderZLevel = 0.f;
 };

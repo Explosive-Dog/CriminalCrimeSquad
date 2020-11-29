@@ -10,6 +10,7 @@
 #include "SelectionBox.h"
 #include "Weapon.h"
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -28,7 +29,7 @@ void events(sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseSta
         }
         if (event.type == sf::Event::Resized)
         {
-            view.setSize(static_cast<float>(event.size.width), static_cast<float>(event.size.height));
+            //view.setSize(static_cast<float>(event.size.width), static_cast<float>(event.size.height));
         }
         keyboardAndMouseState.updateKeyboardAndMouseState(window, view, event);
     }
@@ -62,7 +63,7 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
     }
 
     // random units into the list, either player or non player controlled.
-    for (size_t index = (static_cast<size_t>(rand() % 500) + 1); index != 0; --index)
+    for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index)
     {
         Character* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10));
         updatables.emplace_back(newCharacter);
@@ -115,25 +116,31 @@ int main()
     while (mainWindow.isOpen())
     {
         deltaTime = deltaTimeClock.restart().asSeconds();
+
         events(mainWindow, keyboardAndMouseState, *playerView->getView());
 
         UpdateParameters updateParameters(mainWindow, *playerView->getView(), keyboardAndMouseState, collidables, selectables);
-        for (size_t index = 0; index != updatables.size(); ++index)
+        for (auto &updatable : updatables)
         {
-            updatables[index]->update(deltaTime, updateParameters);
+            updatable->update(deltaTime, updateParameters);
         }
+
+        auto renderPriority = [](const Renderable* x, const Renderable* y) {return x->getRenderZLevel() < y->getRenderZLevel();};
+        std::stable_sort(renderables.begin(), renderables.end(), renderPriority);
+
         mainWindow.setView(*playerView->getView());
         mainWindow.clear(sf::Color::Black);
-        for (size_t index = 0; index != renderables.size(); ++index)
+        for (auto &renderable : renderables)
         {
-            if (renderables[index]->getDrawable() != nullptr)
+            if (renderable->getDrawable() != nullptr)
             {
-                mainWindow.draw(*renderables[index]->getDrawable());
+                mainWindow.draw(*renderable->getDrawable());
             }
         }
         mainWindow.display();
+
         physicsWorld.Step(timeStep, velocityIterations, positionIterations);
-        system("cls");
+        //system("cls");
     }
     return 0;
 }
