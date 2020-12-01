@@ -22,6 +22,10 @@ public:
 
     b2Body* getB2Body() override;
 
+    void joinRightHand(b2World& world, b2Body* joiningBody);
+
+    void releaseRightHandJoin(b2World& world);
+
 protected:
 
     std::string m_firstName = "Firstname";
@@ -46,6 +50,15 @@ protected:
 
     bool m_beingRendered = true;
     sf::RectangleShape m_characterRectangleShape;
+
+    bool rightHandJoined = false;
+    b2Joint* m_rightHandJoint;
+    b2RevoluteJointDef m_rightHandJointDef;
+    
+
+    bool leftHandJoined = false;
+    b2Joint* m_leftHandJoint;
+    b2RevoluteJointDef m_leftHandJointDef;
 
 };
 

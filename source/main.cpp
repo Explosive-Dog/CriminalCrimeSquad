@@ -43,23 +43,19 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
                Camera& camera)
 {
 
-    // put one player controlable units into the updatable and renderable vectors
+    // put a player controlable unit and a weapon into the updatable and renderable vectors
     {
         float x = static_cast<float>(rand() % -10);
         float y = static_cast<float>(rand() % -10);
         auto* spear = new Weapon(physicsWorld, x + 1.f, y + 1.f);
         auto* newCharacter = new Player(physicsWorld, x, y, camera);
 
-        b2RevoluteJointDef newJoint;
-        newJoint.bodyA = spear->getB2Body();
-        newJoint.bodyB = newCharacter->getB2Body();
-        newJoint.collideConnected = false;
-        physicsWorld.CreateJoint(&newJoint);
-        
         updatables.emplace_back(newCharacter);
         renderables.push_back(newCharacter);
         updatables.emplace_back(spear);
         renderables.push_back(spear);
+
+        newCharacter->joinRightHand(physicsWorld, spear->getB2Body());
     }
 
     // random units into the list, either player or non player controlled.
@@ -77,8 +73,8 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
 
 }
 
-constexpr float radiansToDegrees(float toConvert) {
-    return toConvert * (180 / b2_pi);
+constexpr float radiansToDegrees(float radiansToConvert) {
+    return radiansToConvert * (180 / b2_pi);
 }
 
 int main()
@@ -140,7 +136,7 @@ int main()
         mainWindow.display();
 
         physicsWorld.Step(timeStep, velocityIterations, positionIterations);
-        //system("cls");
+        system("cls");
     }
     return 0;
 }

@@ -38,3 +38,22 @@ void Character::update(const float deltaTime, UpdateParameters& updateParameters
 b2Body* Character::getB2Body() {
     return m_rigidBody;
 }
+
+void Character::joinRightHand(b2World& world, b2Body* joiningBody)
+{
+    if (!rightHandJoined) {
+        m_rightHandJointDef.bodyA = m_rigidBody;
+        m_rightHandJointDef.bodyB = joiningBody;
+        m_rightHandJointDef.collideConnected = false;
+        m_rightHandJoint = world.CreateJoint(&m_rightHandJointDef);
+        rightHandJoined = true;
+    }
+}
+
+void Character::releaseRightHandJoin(b2World& world)
+{
+    if (rightHandJoined) {
+       world.DestroyJoint(m_rightHandJoint);
+    }
+}
+
