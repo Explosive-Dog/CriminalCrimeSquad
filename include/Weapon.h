@@ -6,10 +6,15 @@
 #include "Renderable.h"
 #include "Updatable.h"
 
-class Weapon : public Updatable, public Renderable, public Joinable
+class Weapon : public Updatable, public Renderable, public Grabable
 {
 public:
-	Weapon(b2World& world, float positionX, float positionY);
+	Weapon(b2World& world,
+        float positionX,
+        float positionY,
+        std::vector<std::unique_ptr<Updatable>>& updatables,
+        std::vector<const Renderable*>& renderables,
+        std::vector<const Grabable*>& grabables);
 
 	virtual ~Weapon() = default;
 
@@ -17,7 +22,7 @@ public:
 
     const sf::Drawable* getDrawable() const override;
 
-    b2Body* getB2Body() override;
+    b2Body* getB2Body() const override;
 
 protected:
 

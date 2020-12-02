@@ -10,6 +10,8 @@ void KeyboardAndMouseState::resetKeyboardAndMouseStateCounters()
     mouseWheelDelta = 0.f;
     horizontal = 0.f;
     vertical = 0.f;
+
+    useKeyPressed = false;
 }
 
 void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window, sf::View& view, sf::Event& event)
@@ -69,6 +71,9 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
     }
     if (event.type == sf::Event::EventType::KeyPressed)
     {
+        if (event.key.code == sf::Keyboard::Key::F) {
+            useKeyPressed = true;
+        }
         if (event.key.code == sf::Keyboard::Key::Up) {
             arrowKeyUp = true;
         }
@@ -110,6 +115,9 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
     }
     if (event.type == sf::Event::EventType::KeyReleased)
     {
+        if (event.key.code == sf::Keyboard::Key::F) {
+            useKeyPressed = false;
+        }
         if (event.key.code == sf::Keyboard::Key::Up) {
             arrowKeyUp = false;
         }

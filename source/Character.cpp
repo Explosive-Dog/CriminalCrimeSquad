@@ -1,7 +1,11 @@
 #include "Character.h"
 
-Character::Character(b2World &world, float positionX, float positionY) {
-
+Character::Character(b2World &world,
+                    float positionX,
+                    float positionY,
+                    std::vector<std::unique_ptr<Updatable>>& updatables,
+                    std::vector<const Renderable*>& renderables) 
+{
     m_rigidBodyDef.type = b2_dynamicBody;
     m_rigidBodyDef.position.Set(positionX, positionY);
     m_rigidBodyDef.linearDamping = 2.f;
@@ -22,6 +26,8 @@ Character::Character(b2World &world, float positionX, float positionY) {
 
     m_renderZLevel = m_initialRenderZLevel;
     
+    updatables.emplace_back(this);
+    renderables.push_back(this);
 }
 
 const sf::Drawable* Character::getDrawable() const
@@ -35,25 +41,26 @@ void Character::update(const float deltaTime, UpdateParameters& updateParameters
     m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
 }
 
-b2Body* Character::getB2Body() {
+b2Body* Character::getB2Body() const {
     return m_rigidBody;
 }
 
 void Character::joinRightHand(b2World& world, b2Body* joiningBody)
 {
-    if (!rightHandJoined) {
+    if (!m_rightHandJoined) {
         m_rightHandJointDef.bodyA = m_rigidBody;
         m_rightHandJointDef.bodyB = joiningBody;
         m_rightHandJointDef.collideConnected = false;
         m_rightHandJoint = world.CreateJoint(&m_rightHandJointDef);
-        rightHandJoined = true;
+        m_rightHandJoined = true;
     }
 }
 
 void Character::releaseRightHandJoin(b2World& world)
 {
-    if (rightHandJoined) {
+    if (m_rightHandJoined) {
        world.DestroyJoint(m_rightHandJoint);
+       m_rightHandJoined = false;
     }
 }
 

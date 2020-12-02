@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Renderable.h"
 #include "SelectionBox.h"
+#include "Updatable.h"
 #include "Weapon.h"
 
 #include <algorithm>
@@ -40,30 +41,26 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
                std::vector<const Collidable*>& collidables,
                std::vector<Selectable*>& selectables,
                b2World& physicsWorld,
-               Camera& camera)
+               Camera& camera,
+               std::vector<const Grabable*>& grabables)
 {
 
     // put a player controlable unit and a weapon into the updatable and renderable vectors
     {
         float x = static_cast<float>(rand() % -10);
         float y = static_cast<float>(rand() % -10);
-        auto* spear = new Weapon(physicsWorld, x + 1.f, y + 1.f);
-        auto* newCharacter = new Player(physicsWorld, x, y, camera);
-
-        updatables.emplace_back(newCharacter);
-        renderables.push_back(newCharacter);
-        updatables.emplace_back(spear);
-        renderables.push_back(spear);
-
-        newCharacter->joinRightHand(physicsWorld, spear->getB2Body());
+        auto* newCharacter = new Player(physicsWorld, x, y, updatables, renderables, camera);
     }
 
     // random units into the list, either player or non player controlled.
     for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index)
     {
-        Character* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10));
-        updatables.emplace_back(newCharacter);
-        renderables.push_back(newCharacter);
+        Character* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
+    }
+
+    for (size_t index = (static_cast<size_t>(rand() % 10) + 1); index != 0; --index)
+    {
+        Weapon* spear = new Weapon(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
     }
 
     // set up the selection box as part of the level generation.
@@ -91,22 +88,24 @@ int main()
 
     sf::RenderWindow mainWindow(sf::VideoMode(800, 600), "A Game? seed: " + seedString, sf::Style::Default, settings);
     mainWindow.setFramerateLimit(200);
-    //mainWindow.setKeyRepeatEnabled(false);
+    mainWindow.setKeyRepeatEnabled(false);
     KeyboardAndMouseState keyboardAndMouseState;
     std::vector<std::unique_ptr<Updatable>> updatables;
     std::vector<const Renderable*> renderables;
     std::vector<const Collidable*> collidables;
+    std::vector<const Grabable*> grabables;
     std::vector<Selectable*> selectables;
 
     Camera* playerView = new Camera;
     updatables.emplace_back(playerView);
 
     b2World physicsWorld({0.f, 0.f});
-    prepLevel(updatables, renderables, collidables, selectables, physicsWorld, *playerView);
+    prepLevel(updatables, renderables, collidables, selectables, physicsWorld, *playerView, grabables);
 
     float timeStep = 1.f / 60.f;
     int32 velocityIterations = 8;
     int32 positionIterations = 3;
+    b2Body* m_rigidBody;
 
     float deltaTime = 0.f;
     while (mainWindow.isOpen())
@@ -115,7 +114,7 @@ int main()
 
         events(mainWindow, keyboardAndMouseState, *playerView->getView());
 
-        UpdateParameters updateParameters(mainWindow, *playerView->getView(), keyboardAndMouseState, collidables, selectables);
+        UpdateParameters updateParameters(mainWindow, *playerView->getView(), keyboardAndMouseState, collidables, selectables, grabables);
         for (auto &updatable : updatables)
         {
             updatable->update(deltaTime, updateParameters);

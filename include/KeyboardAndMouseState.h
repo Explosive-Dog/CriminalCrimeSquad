@@ -16,7 +16,9 @@ struct KeyboardAndMouseState
     bool mouseMiddleReleased = false;
     bool horizontalBeingPressed = false;
     bool verticalBeingPressed = false;
+
     bool spaceBarPressed = false;
+    bool useKeyPressed = false;
 
     bool moveLeftKeyPressed = false;
     bool moveRightKeyPressed = false;

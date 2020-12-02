@@ -12,7 +12,11 @@ class Character : public Updatable, public Renderable, public Joinable
 
 public:
 
-    Character(b2World &world, float positionX, float positionY);
+    Character(b2World &world,
+              float positionX,
+              float positionY, 
+              std::vector<std::unique_ptr<Updatable>>& updatables,
+              std::vector<const Renderable*>& renderables);
 
     virtual ~Character() = default;
 
@@ -20,7 +24,7 @@ public:
 
     void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
-    b2Body* getB2Body() override;
+    b2Body* getB2Body() const override;
 
     void joinRightHand(b2World& world, b2Body* joiningBody);
 
@@ -51,12 +55,12 @@ protected:
     bool m_beingRendered = true;
     sf::RectangleShape m_characterRectangleShape;
 
-    bool rightHandJoined = false;
+    bool m_rightHandJoined = false;
     b2Joint* m_rightHandJoint;
     b2RevoluteJointDef m_rightHandJointDef;
     
 
-    bool leftHandJoined = false;
+    bool m_leftHandJoined = false;
     b2Joint* m_leftHandJoint;
     b2RevoluteJointDef m_leftHandJointDef;
 
