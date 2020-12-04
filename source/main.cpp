@@ -44,30 +44,25 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
                Camera& camera,
                std::vector<const Grabable*>& grabables)
 {
-
-    // put a player controlable unit and a weapon into the updatable and renderable vectors
     {
         float x = static_cast<float>(rand() % -10);
         float y = static_cast<float>(rand() % -10);
         auto* newCharacter = new Player(physicsWorld, x, y, updatables, renderables, camera);
     }
 
-    // random units into the list, either player or non player controlled.
+    // random non-player controlled characters.
     for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index)
     {
         Character* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
     }
 
-    for (size_t index = (static_cast<size_t>(rand() % 10) + 1); index != 0; --index)
+    for (size_t index = (static_cast<size_t>(rand() % 10) + 2); index != 0; --index)
     {
         Weapon* spear = new Weapon(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
     }
 
     // set up the selection box as part of the level generation.
-    SelectionBox* selectionBox = new SelectionBox;
-    updatables.emplace_back(selectionBox);
-    renderables.push_back(selectionBox);
-
+    SelectionBox* selectionBox = new SelectionBox(updatables, renderables);
 }
 
 constexpr float radiansToDegrees(float radiansToConvert) {
@@ -102,10 +97,9 @@ int main()
     b2World physicsWorld({0.f, 0.f});
     prepLevel(updatables, renderables, collidables, selectables, physicsWorld, *playerView, grabables);
 
-    float timeStep = 1.f / 60.f;
+    float timeStep = 1.f / 144.f;
     int32 velocityIterations = 8;
     int32 positionIterations = 3;
-    b2Body* m_rigidBody;
 
     float deltaTime = 0.f;
     while (mainWindow.isOpen())
@@ -135,7 +129,7 @@ int main()
         mainWindow.display();
 
         physicsWorld.Step(timeStep, velocityIterations, positionIterations);
-        system("cls");
+        //system("cls");
     }
     return 0;
 }

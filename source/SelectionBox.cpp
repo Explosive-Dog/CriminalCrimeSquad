@@ -1,11 +1,14 @@
 #include "SelectionBox.h"
 
-SelectionBox::SelectionBox() {
+SelectionBox::SelectionBox(std::vector<std::unique_ptr<Updatable>>& updatables,
+                           std::vector<const Renderable*>& renderables) {
 
     m_selectionBoxRectangleShape.setOutlineColor(sf::Color::White);
     m_selectionBoxRectangleShape.setFillColor(sf::Color::Transparent);
     m_renderZLevel = std::numeric_limits<float>::max();
 
+    updatables.emplace_back(this);
+    renderables.push_back(this);
 }
 
 const sf::Drawable* SelectionBox::getDrawable() const

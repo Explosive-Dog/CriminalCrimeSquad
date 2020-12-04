@@ -16,4 +16,5 @@ public:
 	void update(const float deltaTime, UpdateParameters& updateParameters) override;
 private:
 	Camera& m_camera;
+	bool m_useKeyAlreadyPressed = false;
 };

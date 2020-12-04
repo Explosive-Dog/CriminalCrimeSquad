@@ -8,10 +8,6 @@ void KeyboardAndMouseState::resetKeyboardAndMouseStateCounters()
     mouseRightReleased = false;
     mouseMiddleReleased = false;
     mouseWheelDelta = 0.f;
-    horizontal = 0.f;
-    vertical = 0.f;
-
-    useKeyPressed = false;
 }
 
 void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window, sf::View& view, sf::Event& event)
@@ -69,8 +65,11 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
         currentMousePosition.x = event.mouseMove.x;
         currentMousePosition.y = event.mouseMove.y;
     }
+
     if (event.type == sf::Event::EventType::KeyPressed)
     {
+        keysPressed[event.key.code] = true;
+        /*
         if (event.key.code == sf::Keyboard::Key::F) {
             useKeyPressed = true;
         }
@@ -111,10 +110,12 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
         if (event.key.code == sf::Keyboard::Key::E) {
             rotateClockwise = true;
         }
-
+        */
     }
     if (event.type == sf::Event::EventType::KeyReleased)
     {
+        keysPressed[event.key.code] = false;
+        /*
         if (event.key.code == sf::Keyboard::Key::F) {
             useKeyPressed = false;
         }
@@ -155,6 +156,7 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
         if (event.key.code == sf::Keyboard::Key::E) {
             rotateClockwise = false;
         }
+        */
     }
     if (event.type == sf::Event::EventType::MouseWheelScrolled)
     {
@@ -163,4 +165,41 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
             mouseWheelDelta -= event.mouseWheelScroll.delta;
         }
     }
+}
+
+bool KeyboardAndMouseState::getKeyPressed(KeyName keyName) const
+{
+    sf::Keyboard::Key keyToCheck;
+    switch (keyName)
+    {
+    case KeyboardAndMouseState::KeyName::moveLeft:
+        keyToCheck = sf::Keyboard::A;
+        break;
+    case KeyboardAndMouseState::KeyName::moveDown:
+        keyToCheck = sf::Keyboard::S;
+        break;
+    case KeyboardAndMouseState::KeyName::moveRight:
+        keyToCheck = sf::Keyboard::D;
+        break;
+    case KeyboardAndMouseState::KeyName::moveUp:
+        keyToCheck = sf::Keyboard::W;
+        break;
+    case KeyboardAndMouseState::KeyName::rotateClockwise:
+        keyToCheck = sf::Keyboard::E;
+        break;
+    case KeyboardAndMouseState::KeyName::rotateCounterClockwise:
+        keyToCheck = sf::Keyboard::Q;
+        break;
+    case KeyboardAndMouseState::KeyName::use:
+        keyToCheck = sf::Keyboard::F;
+        break;
+    default:
+        return false;
+        break;
+    }
+
+    if (keysPressed.count(keyToCheck) != 0) {
+        return keysPressed.at(keyToCheck);
+    }
+    return false;
 }

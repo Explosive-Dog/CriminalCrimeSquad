@@ -16,48 +16,51 @@ void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
     float verticalMovement = 0.f;
     float rotationalMovement = 0.f;
 
-    if (updateParameters.keyboardAndMouseState.moveLeftKeyPressed) {
+    if (updateParameters.keyboardAndMouseState.getKeyPressed(KeyboardAndMouseState::KeyName::moveLeft)) {
         horizontalMovement -= 1.f;
     }
-    if (updateParameters.keyboardAndMouseState.moveRightKeyPressed) {
+    if (updateParameters.keyboardAndMouseState.getKeyPressed(KeyboardAndMouseState::KeyName::moveRight)) {
         horizontalMovement += 1.f;
     }
-    if (updateParameters.keyboardAndMouseState.moveDownKeyPressed) {
+    if (updateParameters.keyboardAndMouseState.getKeyPressed(KeyboardAndMouseState::KeyName::moveDown)) {
         verticalMovement += 1.f;
     }
-    if (updateParameters.keyboardAndMouseState.moveUpKeyPressed) {
+    if (updateParameters.keyboardAndMouseState.getKeyPressed(KeyboardAndMouseState::KeyName::moveUp)) {
         verticalMovement -= 1.f;
     }
-    if (updateParameters.keyboardAndMouseState.rotateClockwise) {
+    if (updateParameters.keyboardAndMouseState.getKeyPressed(KeyboardAndMouseState::KeyName::rotateClockwise)) {
         rotationalMovement += 1.f;
     }
-    if (updateParameters.keyboardAndMouseState.rotateCounterClockwise) {
+    if (updateParameters.keyboardAndMouseState.getKeyPressed(KeyboardAndMouseState::KeyName::rotateCounterClockwise)) {
         rotationalMovement -= 1.f;
     }
-
-    if (updateParameters.keyboardAndMouseState.useKeyPressed)
+    if (updateParameters.keyboardAndMouseState.getKeyPressed(KeyboardAndMouseState::KeyName::use) == true && m_useKeyAlreadyPressed == false)
     {
         if (m_rightHandJoined) {
             Player::releaseRightHandJoin(*m_rigidBody->GetWorld());
+            m_useKeyAlreadyPressed = true;
         }
         else if (!m_rightHandJoined) {
             if (!updateParameters.grabables.empty()) {
-                    auto worldPoint = m_rigidBody->GetWorldCenter();
-                    auto grabables = &updateParameters.grabables;
-                    auto sortByClosestToPlayer = [worldPoint](auto grabableA, auto grabableB) {return b2Distance(worldPoint, grabableA->getB2Body()->GetWorldCenter()) < b2Distance(worldPoint, grabableB->getB2Body()->GetWorldCenter()); };
-                    std::sort(grabables->begin(), grabables->end(), sortByClosestToPlayer);
-                    auto grabbed = grabables->front()->getB2Body();
-                    if (b2Distance(grabbed->GetWorldCenter(), m_rigidBody->GetWorldCenter()) < 1.f) {
-                        joinRightHand(*m_rigidBody->GetWorld(), grabbed);
+                auto worldPoint = m_rigidBody->GetWorldCenter();
+                auto grabables = updateParameters.grabables;
+                auto sortByClosestToPlayer = [worldPoint](const Grabable* grabableA, const Grabable* grabableB) {return b2Distance(worldPoint, grabableA->getB2Body()->GetWorldCenter()) < b2Distance(worldPoint, grabableB->getB2Body()->GetWorldCenter()); };
+                auto closestToPlayer = *std::min_element(grabables.begin(), grabables.end(), sortByClosestToPlayer);
+                b2Body* grabbed = closestToPlayer->getB2Body();
+                if (b2Distance(grabbed->GetWorldCenter(), m_rigidBody->GetWorldCenter()) < 1.f) {
+                    joinRightHand(*m_rigidBody->GetWorld(), grabbed);
                 }
             }
+            m_useKeyAlreadyPressed = true;
         }
     }
-
+    else if (updateParameters.keyboardAndMouseState.getKeyPressed(KeyboardAndMouseState::KeyName::use) == false && m_useKeyAlreadyPressed == true) {
+        m_useKeyAlreadyPressed = false;
+    }
 
     b2Vec2 forceToMoveBy = { horizontalMovement * m_moveSpeedMultiplier , verticalMovement * m_moveSpeedMultiplier };
     float forceToRotateBy = rotationalMovement * m_rotationSpeedMultiplier;
-
+    /*
     std::cout << "X: " << updateParameters.keyboardAndMouseState.horizontal << std::endl;
     std::cout << "Y: " << updateParameters.keyboardAndMouseState.vertical << std::endl;
     std::cout << m_rigidBody->GetMass() << std::endl;
@@ -66,7 +69,7 @@ void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
         " D: " << updateParameters.keyboardAndMouseState.moveRightKeyPressed <<
         " W: " << updateParameters.keyboardAndMouseState.moveUpKeyPressed << std::endl;
     std::cout << "The use key pressed: " << updateParameters.keyboardAndMouseState.useKeyPressed << std::endl;
-    // m_rigidBody->SetLinearVelocity(forceToMoveBy);
+    */// m_rigidBody->SetLinearVelocity(forceToMoveBy);
     b2Vec2 vel = m_rigidBody->GetLinearVelocity();
 
     //std::cout << "VEL X: " << vel.x << std::endl;

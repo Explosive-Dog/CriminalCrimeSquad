@@ -1,11 +1,25 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <map>
 
-struct KeyboardAndMouseState
+class KeyboardAndMouseState final
 {
+public:
+    enum class KeyName {
+        moveLeft,
+        moveDown,
+        moveRight,
+        moveUp,
+        rotateClockwise,
+        rotateCounterClockwise,
+        use
+    };
+
     void resetKeyboardAndMouseStateCounters();
 
     void updateKeyboardAndMouseState(sf::RenderWindow& window, sf::View& view, sf::Event& event);
+
+    bool getKeyPressed(KeyName keyName) const;
 
     float mouseWheelDelta = 0.f;
     bool mouseLeft = false;
@@ -14,18 +28,6 @@ struct KeyboardAndMouseState
     bool mouseRightReleased = false;
     bool mouseMiddle = false;
     bool mouseMiddleReleased = false;
-    bool horizontalBeingPressed = false;
-    bool verticalBeingPressed = false;
-
-    bool spaceBarPressed = false;
-    bool useKeyPressed = false;
-
-    bool moveLeftKeyPressed = false;
-    bool moveRightKeyPressed = false;
-    bool moveDownKeyPressed = false;
-    bool moveUpKeyPressed = false;
-    bool rotateClockwise = false;
-    bool rotateCounterClockwise = false;
 
     sf::Vector2f mousePositionInWorldWhenRightMouseButtonWasLastPressed{ 0, 0 };
     sf::Vector2f mousePositionInWorldWhenLeftMouseButtonWasLastPressed{ 0, 0 };
@@ -35,11 +37,6 @@ struct KeyboardAndMouseState
     sf::Vector2i mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta{ 0, 0 };
     sf::Vector2i currentMousePosition{ 0, 0 };
 
-    float horizontal = 0.f;
-    float vertical = 0.f;
-
-    bool arrowKeyUp = false;
-    bool arrowKeyDown = false;
-    bool arrowKeyLeft = false;
-    bool arrowKeyRight = false;
+private:
+    std::map<sf::Keyboard::Key, bool> keysPressed;
 };

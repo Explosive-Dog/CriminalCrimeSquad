@@ -13,6 +13,5 @@ class Grabable : public Joinable
 {
 public:
     virtual ~Grabable() = default;
-    virtual b2Body* getB2Body() const = 0;
 };
 

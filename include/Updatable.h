@@ -14,14 +14,14 @@ struct UpdateParameters final
 	const KeyboardAndMouseState& keyboardAndMouseState;
 	const std::vector<const Collidable*>& collidables;
 	const std::vector<Selectable*>& selectables;
-	std::vector<const Grabable*>& grabables;
+	const std::vector<const Grabable*>& grabables;
 
 	UpdateParameters(const sf::RenderWindow& mainWindow,
 		sf::View& playerView,
 		const KeyboardAndMouseState& gameKeyboardAndMouseState,
 		const std::vector<const Collidable*>& gameCollidables,
 		const std::vector<Selectable*>& gameSelectables,
-		std::vector<const Grabable*>& gameGrabables)
+		const std::vector<const Grabable*>& gameGrabables)
 		: window(mainWindow),
 		view(playerView),
 		keyboardAndMouseState(gameKeyboardAndMouseState),

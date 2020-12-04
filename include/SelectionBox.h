@@ -8,7 +8,8 @@ class SelectionBox : public Updatable, public Renderable
 
 public:
 
-	SelectionBox();
+	SelectionBox(std::vector<std::unique_ptr<Updatable>>& updatables,
+				 std::vector<const Renderable*>& renderables);
 
 	virtual ~SelectionBox() = default;
 
