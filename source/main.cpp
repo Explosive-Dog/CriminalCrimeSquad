@@ -12,11 +12,11 @@
 #include "Weapon.h"
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
+#include <random>
 #include <string>
 #include <vector>
-#include <cmath>
-#include <random>
 
 void events(sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, sf::View& view)
 {

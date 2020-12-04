@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+
 #include "Updatable.h"
 
 class Camera : public Updatable
@@ -15,8 +16,6 @@ public:
     sf::View* getView();
 
 private:
-
-    void scrollCameraView(const float deltaTime, UpdateParameters& updateParameters);
 
     void zoomCameraView(const float deltaTime, UpdateParameters& updateParameters);
 

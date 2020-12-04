@@ -1,5 +1,4 @@
 #include "Weapon.h"
-//#include <iostream>
 
 Weapon::Weapon(b2World& world,
     float positionX,
@@ -37,7 +36,6 @@ void Weapon::update(const float deltaTime, UpdateParameters& updateParameters)
 {
     m_characterRectangleShape.setPosition(m_rigidBody->GetPosition().x, m_rigidBody->GetPosition().y);
     m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
-    //std::cout << "Weapon shaft weight" << m_rigidBody->GetMass() << std::endl;
 }
 
 const sf::Drawable* Weapon::getDrawable() const

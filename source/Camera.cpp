@@ -14,7 +14,6 @@ sf::View* Camera::getView()
 /*
 void Camera::scrollCameraView(const float deltaTime, UpdateParameters& updateParameters)
 {
-
     if (updateParameters.keyboardAndMouseState.arrowKeyUp) {
         playerView.move(0.f, -playerView.getSize().y * deltaTime);
     }
@@ -58,7 +57,6 @@ void Camera::zoomCameraView(const float deltaTime, UpdateParameters& updateParam
     }
     playerView.zoom(zoomLevel);
 }
-
 
 Camera::Camera()
 {

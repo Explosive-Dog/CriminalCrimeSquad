@@ -1,34 +1,30 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Updatable.h"
-#include "Renderable.h"
 
+#include "Renderable.h"
+#include "Updatable.h"
+
+//this class is likely to be removed in the furture.
 class SelectionBox : public Updatable, public Renderable
 {
-
 public:
+    SelectionBox(std::vector<std::unique_ptr<Updatable>>& updatables,
+                 std::vector<const Renderable*>& renderables);
 
-	SelectionBox(std::vector<std::unique_ptr<Updatable>>& updatables,
-				 std::vector<const Renderable*>& renderables);
+    virtual ~SelectionBox() = default;
 
-	virtual ~SelectionBox() = default;
+    const sf::Drawable* getDrawable() const;
 
-	const sf::Drawable* getDrawable() const;
-
-	void update(const float deltaTime, UpdateParameters& updateParameters) override;
+    void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
 private:
+    void setVisible(const KeyboardAndMouseState& keyboardAndMouseState);
 
-	void setVisible(const KeyboardAndMouseState& keyboardAndMouseState);
+    sf::RectangleShape m_selectionBoxRectangleShape;
 
-	sf::RectangleShape m_selectionBoxRectangleShape;
+    void createOrModifySelectionBox(sf::View& view, const KeyboardAndMouseState& keyboardAndMouseState, const sf::RenderWindow& window);
 
-	void createOrModifySelectionBox(sf::View& view, const KeyboardAndMouseState& keyboardAndMouseState, const sf::RenderWindow& window);
+    void updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, std::vector<Selectable*> &selectables);
 
-	// Placeholder. TODO: Selecting a unit should put an information graphic over the selectable unit which then displays HP and so on.
-	void updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, std::vector<Selectable*> &selectables);
-
-	bool m_visible = false;
-
+    bool m_visible = false;
 };
-

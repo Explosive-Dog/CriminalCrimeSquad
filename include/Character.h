@@ -3,13 +3,11 @@
 #include <box2d/box2d.h>
 
 #include "Joinable.h"
-#include "Updatable.h"
 #include "Renderable.h"
-
+#include "Updatable.h"
 
 class Character : public Updatable, public Renderable, public Joinable
 {
-
 public:
 
     Character(b2World &world,
@@ -58,11 +56,8 @@ protected:
     bool m_rightHandJoined = false;
     b2Joint* m_rightHandJoint;
     b2RevoluteJointDef m_rightHandJointDef;
-    
 
     bool m_leftHandJoined = false;
     b2Joint* m_leftHandJoint;
     b2RevoluteJointDef m_leftHandJointDef;
-
 };
-

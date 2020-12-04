@@ -63,4 +63,3 @@ void Character::releaseRightHandJoin(b2World& world)
        m_rightHandJoined = false;
     }
 }
-

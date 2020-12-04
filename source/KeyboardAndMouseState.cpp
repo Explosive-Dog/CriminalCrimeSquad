@@ -1,7 +1,5 @@
 #include "KeyboardAndMouseState.h"
 
-#include <iostream>
-
 void KeyboardAndMouseState::resetKeyboardAndMouseStateCounters()
 {
     mouseLeftReleased = false;
@@ -69,94 +67,10 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
     if (event.type == sf::Event::EventType::KeyPressed)
     {
         keysPressed[event.key.code] = true;
-        /*
-        if (event.key.code == sf::Keyboard::Key::F) {
-            useKeyPressed = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::Up) {
-            arrowKeyUp = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::Down) {
-            arrowKeyDown = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::Left) {
-            arrowKeyLeft = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::Right) {
-            arrowKeyRight = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::Space) {
-            spaceBarPressed = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::D) {
-            horizontalBeingPressed = true;
-            moveRightKeyPressed = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::A) {
-            horizontalBeingPressed = true;
-            moveLeftKeyPressed = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::W) {
-            verticalBeingPressed = true;
-            moveUpKeyPressed = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::S) {
-            verticalBeingPressed = true;
-            moveDownKeyPressed = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::Q) {
-            rotateCounterClockwise = true;
-        }
-        if (event.key.code == sf::Keyboard::Key::E) {
-            rotateClockwise = true;
-        }
-        */
     }
     if (event.type == sf::Event::EventType::KeyReleased)
     {
         keysPressed[event.key.code] = false;
-        /*
-        if (event.key.code == sf::Keyboard::Key::F) {
-            useKeyPressed = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::Up) {
-            arrowKeyUp = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::Down) {
-            arrowKeyDown = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::Left) {
-            arrowKeyLeft = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::Right) {
-            arrowKeyRight = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::Space) {
-            spaceBarPressed = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::D) {
-            horizontalBeingPressed = false;
-            moveRightKeyPressed = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::A) {
-            horizontalBeingPressed = false;
-            moveLeftKeyPressed = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::W) {
-            verticalBeingPressed = false;
-            moveUpKeyPressed = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::S) {
-            verticalBeingPressed = false;
-            moveDownKeyPressed = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::Q) {
-            rotateCounterClockwise = false;
-        }
-        if (event.key.code == sf::Keyboard::Key::E) {
-            rotateClockwise = false;
-        }
-        */
     }
     if (event.type == sf::Event::EventType::MouseWheelScrolled)
     {

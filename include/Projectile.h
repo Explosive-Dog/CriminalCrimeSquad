@@ -1,17 +1,18 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Updatable.h"
+
 #include "Renderable.h"
+#include "Updatable.h"
 
 class Projectile : public sf::CircleShape, public Updatable, public Renderable, public Collidable
 {
 public:
 
-	Projectile(sf::Vector2f heading, sf::Vector2f momentum);
+    Projectile(sf::Vector2f heading, sf::Vector2f momentum);
 
-	virtual ~Projectile() = default;
+    virtual ~Projectile() = default;
 
-	void update(const float deltaTime, UpdateParameters& updateParameters);
+    void update(const float deltaTime, UpdateParameters& updateParameters);
 
     bool getActive();
 
@@ -35,6 +36,4 @@ private:
     sf::Clock projectileTimer;
 
     bool active = true;
-
 };
-

@@ -9,16 +9,16 @@
 class Weapon : public Updatable, public Renderable, public Grabable
 {
 public:
-	Weapon(b2World& world,
+    Weapon(b2World& world,
         float positionX,
         float positionY,
         std::vector<std::unique_ptr<Updatable>>& updatables,
         std::vector<const Renderable*>& renderables,
         std::vector<const Grabable*>& grabables);
 
-	virtual ~Weapon() = default;
+    virtual ~Weapon() = default;
 
-	void update(const float deltaTime, UpdateParameters& updateParameters) override;
+    void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
     const sf::Drawable* getDrawable() const override;
 
@@ -42,6 +42,4 @@ protected:
     bool m_beingRendered = true;
 
     sf::RectangleShape m_characterRectangleShape;
-
 };
-
