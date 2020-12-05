@@ -21,8 +21,8 @@ const sf::Drawable* SelectionBox::getDrawable() const
 
 void SelectionBox::update(const float deltaTime, UpdateParameters& updateParameters)
 {
+    (void)deltaTime;
     createOrModifySelectionBox(updateParameters.view, updateParameters.keyboardAndMouseState, updateParameters.window);
-    //updateUnitsWithinOrOutsideOfSelectionBox(updateParameters.window, updateParameters.keyboardAndMouseState, updateParameters.);
     setVisible(updateParameters.keyboardAndMouseState);
 }
 
@@ -61,22 +61,3 @@ void SelectionBox::createOrModifySelectionBox(sf::View& view, const KeyboardAndM
     }
 }
 
-// Placeholder. TODO: Selecting a unit should put an information graphic over the selectable unit which then displays HP and so on.
-void SelectionBox::updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, std::vector<Selectable*>& selectables) {
-
-    for (size_t index = 0; index != selectables.size(); ++index)
-    {
-        if (selectables[index]->getSelected() && keyboardAndMouseState.mouseLeftReleased)
-        {
-            selectables[index]->setSelected(false);
-        }
-        if (m_selectionBoxRectangleShape.getGlobalBounds().intersects(selectables[index]->getGlobalBounds()) && keyboardAndMouseState.mouseLeftReleased)
-        {
-            selectables[index]->setSelected(true);
-        }
-        else if (keyboardAndMouseState.mouseLeftReleased && keyboardAndMouseState.currentMousePosition != keyboardAndMouseState.mousePositionInWindowWhenLeftMouseButtonWasLastPressed)
-        {
-            selectables[index]->setSelected(false);
-        }
-    }
-}

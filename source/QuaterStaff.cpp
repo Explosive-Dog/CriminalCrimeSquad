@@ -1,11 +1,12 @@
-#include "Weapon.h"
+#include "QuaterStaff.h"
 
-Weapon::Weapon(b2World& world,
-    float positionX,
-    float positionY,
-    std::vector<std::unique_ptr<Updatable>>& updatables,
-    std::vector<const Renderable*>& renderables,
-    std::vector<const Grabable*>& grabables)
+QuaterStaff::QuaterStaff(b2World& world,
+                         float positionX,
+                         float positionY,
+                         std::vector<std::unique_ptr<Updatable>>& updatables,
+                         std::vector<const Renderable*>& renderables,
+                         std::vector<const Grabable*>& grabables)
+                         : Weapon(grabables)
 {
     m_rigidBodyDef.type = b2_dynamicBody;
     m_rigidBodyDef.position.Set(positionX, positionY);
@@ -31,18 +32,19 @@ Weapon::Weapon(b2World& world,
     renderables.push_back(this);
     grabables.push_back(this);
 }
-
-void Weapon::update(const float deltaTime, UpdateParameters& updateParameters)
+void QuaterStaff::update(const float deltaTime, UpdateParameters& updateParameters)
 {
+    (void)updateParameters;
+    (void)deltaTime;
     m_characterRectangleShape.setPosition(m_rigidBody->GetPosition().x, m_rigidBody->GetPosition().y);
     m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
 }
 
-const sf::Drawable* Weapon::getDrawable() const
+const sf::Drawable* QuaterStaff::getDrawable() const
 {
     return &m_characterRectangleShape;
 }
 
-b2Body* Weapon::getB2Body() const {
+b2Body* QuaterStaff::getB2Body() const {
     return m_rigidBody;
 }
