@@ -25,6 +25,8 @@ target_link_libraries(
 )
 
 if (${MSVC})
+    message(STATUS "Starting MSVC CMAKE bit")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX /W4")
     target_include_directories(
         notlikeroguelike
         PUBLIC
