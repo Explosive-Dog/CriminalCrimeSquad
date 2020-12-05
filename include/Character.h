@@ -24,9 +24,9 @@ public:
 
     b2Body* getB2Body() const override;
 
-    void joinRightHand(b2World& world, b2Body* joiningBody);
+    void joinRightHand(const Grabable* joiningBody);
 
-    void releaseRightHandJoin(b2World& world);
+    void releaseRightHandJoin();
 
 protected:
 
@@ -41,8 +41,8 @@ protected:
     float m_chestSize = 0.15f;
     float m_initialRenderZLevel = 2.f;
 
-    float m_moveSpeedMultiplier = 1000.f;
-    float m_rotationSpeedMultiplier = 1.f;
+    float m_moveSpeedMultiplier = 100000.f;
+    float m_rotationSpeedMultiplier = 20.f;
 
     bool m_usingPhysics = true;
     b2BodyDef m_rigidBodyDef;
@@ -53,11 +53,11 @@ protected:
     bool m_beingRendered = true;
     sf::RectangleShape m_characterRectangleShape;
 
-    bool m_rightHandJoined = false;
-    b2Joint* m_rightHandJoint;
+    const Grabable* m_rightHandIsGrabbing = nullptr;
+    b2Joint* m_rightHandJoint = nullptr;
     b2RevoluteJointDef m_rightHandJointDef;
 
-    bool m_leftHandJoined = false;
-    b2Joint* m_leftHandJoint;
+    const Grabable* m_leftHandIsGrabbing = nullptr;
+    b2Joint* m_leftHandJoint = nullptr;
     b2RevoluteJointDef m_leftHandJointDef;
 };

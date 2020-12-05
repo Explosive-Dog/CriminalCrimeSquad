@@ -1,7 +1,8 @@
 #include "Projectile.h"
-
+/*
 void Projectile::update(const float deltaTime, UpdateParameters& updateParameters)
 {
+    (void)updateParameters;
     move({ movementMomentum.x * deltaTime, movementMomentum.y * deltaTime });
     if (5 < projectileTimer.getElapsedTime().asSeconds())
     {
@@ -45,4 +46,4 @@ void Projectile::changeMovementMomentum(sf::Vector2f momentumToAccelerateBy) {
 
 void Projectile::setMovementHeading(sf::Vector2f desiredHeading) {
     movementHeading = desiredHeading;
-}
+}*/

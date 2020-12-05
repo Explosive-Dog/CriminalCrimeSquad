@@ -1,10 +1,11 @@
 #pragma once
+/*
 #include <SFML/Graphics.hpp>
 
 #include "Renderable.h"
 #include "Updatable.h"
 
-class Projectile : public sf::CircleShape, public Updatable, public Renderable, public Collidable
+class Projectile : public sf::CircleShape, public Updatable, public Renderable,
 {
 public:
 
@@ -37,3 +38,4 @@ private:
 
     bool active = true;
 };
+*/

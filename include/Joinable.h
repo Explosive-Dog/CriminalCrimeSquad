@@ -1,6 +1,8 @@
 #pragma once
 #include <box2d/box2d.h>
 
+#include <vector>
+
 class Joinable 
 {
 public:
@@ -12,5 +14,10 @@ public:
 class Grabable : public Joinable
 {
 public:
+    Grabable(std::vector<const Grabable*>& pointerToTheGrabables);
+    void objectGrabbed() const;
+    void objectReleased() const;
     virtual ~Grabable() = default;
+private:
+    std::vector<const Grabable*> *grabableContainer = nullptr;
 };

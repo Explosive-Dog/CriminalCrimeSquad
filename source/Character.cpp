@@ -37,6 +37,8 @@ const sf::Drawable* Character::getDrawable() const
 
 void Character::update(const float deltaTime, UpdateParameters& updateParameters)
 {
+    (void)deltaTime;
+    (void)updateParameters;
     m_characterRectangleShape.setPosition(m_rigidBody->GetPosition().x, m_rigidBody->GetPosition().y);
     m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
 }
@@ -45,21 +47,24 @@ b2Body* Character::getB2Body() const {
     return m_rigidBody;
 }
 
-void Character::joinRightHand(b2World& world, b2Body* joiningBody)
+void Character::joinRightHand(const Grabable* joiningBody) 
 {
-    if (!m_rightHandJoined) {
+    if (m_rightHandJoint == nullptr) {
         m_rightHandJointDef.bodyA = m_rigidBody;
-        m_rightHandJointDef.bodyB = joiningBody;
+        m_rightHandJointDef.bodyB = joiningBody->getB2Body();
+        m_rightHandIsGrabbing = joiningBody;
         m_rightHandJointDef.collideConnected = false;
-        m_rightHandJoint = world.CreateJoint(&m_rightHandJointDef);
-        m_rightHandJoined = true;
+        m_rightHandJoint = m_rigidBody->GetWorld()->CreateJoint(&m_rightHandJointDef);
+        m_rightHandIsGrabbing->objectGrabbed();
     }
 }
 
-void Character::releaseRightHandJoin(b2World& world)
+void Character::releaseRightHandJoin()
 {
-    if (m_rightHandJoined) {
-       world.DestroyJoint(m_rightHandJoint);
-       m_rightHandJoined = false;
+    if (m_rightHandJoint != nullptr) {
+        m_rightHandIsGrabbing->objectReleased();
+        m_rightHandIsGrabbing = nullptr;
+        m_rigidBody->GetWorld()->DestroyJoint(m_rightHandJoint);
+        m_rightHandJoint = nullptr;
     }
 }

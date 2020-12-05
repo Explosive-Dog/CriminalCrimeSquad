@@ -6,8 +6,10 @@
 #include "Joinable.h"
 #include "KeyboardAndMouseState.h"
 #include "Player.h"
+#include "QuaterStaff.h"
 #include "Renderable.h"
 #include "SelectionBox.h"
+#include "Spear.h"
 #include "Updatable.h"
 #include "Weapon.h"
 
@@ -30,7 +32,7 @@ void events(sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseSta
         }
         if (event.type == sf::Event::Resized)
         {
-            //view.setSize(static_cast<float>(event.size.width), static_cast<float>(event.size.height));
+            view.setSize(static_cast<float>(event.size.width / 20), static_cast<float>(event.size.height / 20));
         }
         keyboardAndMouseState.updateKeyboardAndMouseState(window, view, event);
     }
@@ -38,31 +40,39 @@ void events(sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseSta
 
 void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
                std::vector<const Renderable*>& renderables,
-               std::vector<const Collidable*>& collidables,
-               std::vector<Selectable*>& selectables,
                b2World& physicsWorld,
                Camera& camera,
                std::vector<const Grabable*>& grabables)
 {
     {
-        float x = static_cast<float>(rand() % -10);
-        float y = static_cast<float>(rand() % -10);
-        auto* newCharacter = new Player(physicsWorld, x, y, updatables, renderables, camera);
+        float x = static_cast<float>(rand() % 10);
+        float y = static_cast<float>(rand() % 10);
+        new Player(physicsWorld, x, y, updatables, renderables, camera);
     }
 
     // random non-player controlled characters.
+
     for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index)
     {
-        Character* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
+        new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
     }
+
+    for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index)
+    {
+        auto* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
+        auto* qStaff = new QuaterStaff(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
+        newCharacter->joinRightHand(qStaff);
+    }
+
+    new QuaterStaff(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
 
     for (size_t index = (static_cast<size_t>(rand() % 10) + 2); index != 0; --index)
     {
-        Weapon* spear = new Weapon(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
+        new QuaterStaff(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
     }
 
     // set up the selection box as part of the level generation.
-    SelectionBox* selectionBox = new SelectionBox(updatables, renderables);
+    new SelectionBox(updatables, renderables);
 }
 
 constexpr float radiansToDegrees(float radiansToConvert) {
@@ -87,15 +97,13 @@ int main()
     KeyboardAndMouseState keyboardAndMouseState;
     std::vector<std::unique_ptr<Updatable>> updatables;
     std::vector<const Renderable*> renderables;
-    std::vector<const Collidable*> collidables;
     std::vector<const Grabable*> grabables;
-    std::vector<Selectable*> selectables;
 
     Camera* playerView = new Camera;
     updatables.emplace_back(playerView);
 
     b2World physicsWorld({0.f, 0.f});
-    prepLevel(updatables, renderables, collidables, selectables, physicsWorld, *playerView, grabables);
+    prepLevel(updatables, renderables, physicsWorld, *playerView, grabables);
 
     float timeStep = 1.f / 144.f;
     int32 velocityIterations = 8;
@@ -108,7 +116,7 @@ int main()
 
         events(mainWindow, keyboardAndMouseState, *playerView->getView());
 
-        UpdateParameters updateParameters(mainWindow, *playerView->getView(), keyboardAndMouseState, collidables, selectables, grabables);
+        UpdateParameters updateParameters(mainWindow, *playerView->getView(), keyboardAndMouseState, grabables);
         for (auto &updatable : updatables)
         {
             updatable->update(deltaTime, updateParameters);
