@@ -14,15 +14,15 @@ Spear::Spear(b2World& world,
     m_rigidBodyDef.angularDamping = 2.f;
     m_rigidBody = world.CreateBody(&m_rigidBodyDef);
 
-    m_dynamicBox.SetAsBox(m_Width / 2.f, m_height / 2.f);
+    m_dynamicBox.SetAsBox(m_shaftWidth / 2.f, m_shaftHeight / 2.f);
     m_fixtureDef.shape = &m_dynamicBox;
     m_fixtureDef.density = m_densityMultiplier;
     m_fixtureDef.friction = 1.f;
     m_rigidBody->CreateFixture(&m_fixtureDef);
 
     m_characterRectangleShape.setFillColor(sf::Color(86, 64, 45, 255));
-    m_characterRectangleShape.setSize({ m_Width, m_height });
-    m_characterRectangleShape.setOrigin(m_Width / 2.f, m_height / 2.f);
+    m_characterRectangleShape.setSize({ m_shaftWidth, m_shaftHeight });
+    m_characterRectangleShape.setOrigin(m_shaftWidth / 2.f, m_shaftHeight / 2.f);
     m_characterRectangleShape.setPosition(positionX, positionY);
     m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
 

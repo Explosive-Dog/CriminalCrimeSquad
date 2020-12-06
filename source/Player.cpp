@@ -59,6 +59,21 @@ void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
         }
     }
 
+    if (updateParameters.keyboardAndMouseState.mouseRight == true)
+    {
+        if (m_rightHandJoint != nullptr) {
+            sf::Vector2f sfmlDifference = {updateParameters.window.mapPixelToCoords(
+                                       updateParameters.keyboardAndMouseState.currentMousePosition) -
+                                       updateParameters.window.mapPixelToCoords(
+                                       updateParameters.keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta) };
+            float difference = (std::sqrt(std::pow(sfmlDifference.x,2) + std::pow(sfmlDifference.y,2))) * deltaTime;
+            if (sfmlDifference.x < 0.f) {
+                difference = -difference;
+            }
+            m_rightHandJoint->GetBodyB()->ApplyAngularImpulse(difference, true);
+        }
+    }
+
     else if (updateParameters.keyboardAndMouseState.getKeyPressed(KeyboardAndMouseState::KeyName::use) == false && m_useKeyAlreadyPressed == true) {
         m_useKeyAlreadyPressed = false;
     }

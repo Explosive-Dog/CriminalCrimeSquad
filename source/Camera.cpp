@@ -2,7 +2,6 @@
 
 void Camera::update(const float deltaTime, UpdateParameters& updateParameters)
 {
-    //scrollCameraView(deltaTime, updateParameters);
     zoomCameraView(deltaTime, updateParameters);
 }
 
@@ -14,19 +13,6 @@ sf::View* Camera::getView()
 /*
 void Camera::scrollCameraView(const float deltaTime, UpdateParameters& updateParameters)
 {
-    if (updateParameters.keyboardAndMouseState.arrowKeyUp) {
-        playerView.move(0.f, -playerView.getSize().y * deltaTime);
-    }
-    if (updateParameters.keyboardAndMouseState.arrowKeyDown) {
-        playerView.move(0.f, playerView.getSize().y * deltaTime);
-    }
-    if (updateParameters.keyboardAndMouseState.arrowKeyLeft) {
-        playerView.move(-playerView.getSize().x * deltaTime, 0.f);
-    }
-    if (updateParameters.keyboardAndMouseState.arrowKeyRight) {
-        playerView.move(playerView.getSize().x * deltaTime, 0.f);
-    }
-
     if (updateParameters.keyboardAndMouseState.mouseRight == true || updateParameters.keyboardAndMouseState.mouseMiddle)
     {
         sf::Vector2f difference = updateParameters.window.mapPixelToCoords(updateParameters.keyboardAndMouseState.currentMousePosition) - updateParameters.window.mapPixelToCoords(updateParameters.keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta);

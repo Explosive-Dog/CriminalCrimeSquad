@@ -25,8 +25,8 @@ protected:
     float m_densityMultiplier = 20.f;
 
     // In Metres
-    float m_Width = 0.03f;
-    float m_height = 2.f;
+    float m_staffWidth = 0.03f;
+    float m_staffHeight = 2.f;
     float m_initialRenderZLevel = 1.25f;
 
     bool m_usingPhysics = true;
