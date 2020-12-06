@@ -106,8 +106,8 @@ int main()
     prepLevel(updatables, renderables, physicsWorld, *playerView, grabables);
 
     float timeStep = 1.f / 144.f;
-    int32 velocityIterations = 8;
-    int32 positionIterations = 3;
+    int32 velocityIterations = 10;
+    int32 positionIterations = 10;
 
     float deltaTime = 0.f;
     while (mainWindow.isOpen())
@@ -122,17 +122,15 @@ int main()
             updatable->update(deltaTime, updateParameters);
         }
 
-        auto renderPriority = [](const Renderable* x, const Renderable* y) {return x->getRenderZLevel() < y->getRenderZLevel();};
-        std::stable_sort(renderables.begin(), renderables.end(), renderPriority);
+
 
         mainWindow.setView(*playerView->getView());
         mainWindow.clear(sf::Color::Black);
+        auto renderPriority = [](const Renderable* x, const Renderable* y) {return x->getRenderZLevel() < y->getRenderZLevel();};
+        std::stable_sort(renderables.begin(), renderables.end(), renderPriority);
         for (auto &renderable : renderables)
         {
-            if (renderable->getDrawable() != nullptr)
-            {
-                mainWindow.draw(*renderable->getDrawable());
-            }
+            renderable->render(mainWindow);
         }
         mainWindow.display();
 

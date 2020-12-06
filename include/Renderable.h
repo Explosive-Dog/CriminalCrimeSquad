@@ -17,6 +17,8 @@ public:
         m_renderZLevel = newZLevel;
     }
 
+    virtual void render(sf::RenderWindow& drawingWindow) const = 0;
+
 protected:
     float m_renderZLevel = 0.f;
 };

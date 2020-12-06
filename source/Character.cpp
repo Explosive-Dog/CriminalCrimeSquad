@@ -68,3 +68,8 @@ void Character::releaseRightHandJoin()
         m_rightHandJoint = nullptr;
     }
 }
+
+void Character::render(sf::RenderWindow& drawingWindow) const
+{
+    drawingWindow.draw(m_characterRectangleShape);
+}

@@ -79,6 +79,7 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
             mouseWheelDelta -= event.mouseWheelScroll.delta;
         }
     }
+    (void)view;
 }
 
 bool KeyboardAndMouseState::getKeyPressed(KeyName keyName) const

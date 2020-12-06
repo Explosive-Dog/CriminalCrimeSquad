@@ -15,6 +15,8 @@ public:
 
     const sf::Drawable* getDrawable() const;
 
+    void render(sf::RenderWindow& drawingWindow) const override;
+
     void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
 private:

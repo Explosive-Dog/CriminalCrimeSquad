@@ -19,6 +19,13 @@ const sf::Drawable* SelectionBox::getDrawable() const
     return nullptr;
 }
 
+void SelectionBox::render(sf::RenderWindow& drawingWindow) const
+{
+    if (m_visible == true) {
+        drawingWindow.draw(m_selectionBoxRectangleShape);
+    }
+}
+
 void SelectionBox::update(const float deltaTime, UpdateParameters& updateParameters)
 {
     (void)deltaTime;

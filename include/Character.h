@@ -28,6 +28,8 @@ public:
 
     void releaseRightHandJoin();
 
+    void render(sf::RenderWindow& drawingWindow) const override;
+
 protected:
 
     std::string m_firstName = "Firstname";

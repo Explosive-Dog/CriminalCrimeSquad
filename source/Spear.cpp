@@ -20,11 +20,16 @@ Spear::Spear(b2World& world,
     m_fixtureDef.friction = 1.f;
     m_rigidBody->CreateFixture(&m_fixtureDef);
 
-    m_characterRectangleShape.setFillColor(sf::Color(86, 64, 45, 255));
-    m_characterRectangleShape.setSize({ m_shaftWidth, m_shaftHeight });
-    m_characterRectangleShape.setOrigin(m_shaftWidth / 2.f, m_shaftHeight / 2.f);
-    m_characterRectangleShape.setPosition(positionX, positionY);
-    m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
+    m_shaftRectangleShape.setFillColor(sf::Color(86, 64, 45, 255));
+    m_shaftRectangleShape.setSize({ m_shaftWidth, m_shaftHeight });
+    m_shaftRectangleShape.setOrigin(m_shaftWidth / 2.f, m_shaftHeight / 2.f);
+    m_shaftRectangleShape.setPosition(positionX, positionY);
+    m_shaftRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
+
+
+
+
+
 
     m_renderZLevel = m_initialRenderZLevel;
 
@@ -36,13 +41,19 @@ void Spear::update(const float deltaTime, UpdateParameters& updateParameters)
 {
     (void)updateParameters;
     (void)deltaTime;
-    m_characterRectangleShape.setPosition(m_rigidBody->GetPosition().x, m_rigidBody->GetPosition().y);
-    m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
+    m_shaftRectangleShape.setPosition(m_rigidBody->GetPosition().x, m_rigidBody->GetPosition().y);
+    m_shaftRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
 }
 
 const sf::Drawable* Spear::getDrawable() const
 {
-    return &m_characterRectangleShape;
+    return &m_shaftRectangleShape;
+}
+
+void Spear::render(sf::RenderWindow& drawingWindow) const
+{
+    drawingWindow.draw(m_shaftRectangleShape);
+    drawingWindow.draw(m_spearHeadRectangleShape);
 }
 
 b2Body* Spear::getB2Body() const {

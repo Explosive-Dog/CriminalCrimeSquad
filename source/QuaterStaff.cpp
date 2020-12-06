@@ -20,11 +20,11 @@ QuaterStaff::QuaterStaff(b2World& world,
     m_fixtureDef.friction = 1.f;
     m_rigidBody->CreateFixture(&m_fixtureDef);
 
-    m_characterRectangleShape.setFillColor(sf::Color(86, 64, 45, 255));
-    m_characterRectangleShape.setSize({ m_staffWidth, m_staffHeight });
-    m_characterRectangleShape.setOrigin(m_staffWidth / 2.f, m_staffHeight / 2.f);
-    m_characterRectangleShape.setPosition(positionX, positionY);
-    m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
+    m_quaterStaffRectangleShape.setFillColor(sf::Color(86, 64, 45, 255));
+    m_quaterStaffRectangleShape.setSize({ m_staffWidth, m_staffHeight });
+    m_quaterStaffRectangleShape.setOrigin(m_staffWidth / 2.f, m_staffHeight / 2.f);
+    m_quaterStaffRectangleShape.setPosition(positionX, positionY);
+    m_quaterStaffRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
 
     m_renderZLevel = m_initialRenderZLevel;
 
@@ -36,13 +36,18 @@ void QuaterStaff::update(const float deltaTime, UpdateParameters& updateParamete
 {
     (void)updateParameters;
     (void)deltaTime;
-    m_characterRectangleShape.setPosition(m_rigidBody->GetPosition().x, m_rigidBody->GetPosition().y);
-    m_characterRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
+    m_quaterStaffRectangleShape.setPosition(m_rigidBody->GetPosition().x, m_rigidBody->GetPosition().y);
+    m_quaterStaffRectangleShape.setRotation(m_rigidBody->GetAngle() * (180.f / b2_pi));
 }
 
 const sf::Drawable* QuaterStaff::getDrawable() const
 {
-    return &m_characterRectangleShape;
+    return &m_quaterStaffRectangleShape;
+}
+
+void QuaterStaff::render(sf::RenderWindow& drawingWindow) const
+{
+    drawingWindow.draw(m_quaterStaffRectangleShape);
 }
 
 b2Body* QuaterStaff::getB2Body() const {

@@ -18,6 +18,8 @@ public:
 
     const sf::Drawable* getDrawable() const override;
 
+    void render(sf::RenderWindow& drawingWindow) const override;
+
     b2Body* getB2Body() const override;
 
 protected:
@@ -40,5 +42,6 @@ protected:
 
     bool m_beingRendered = true;
 
-    sf::RectangleShape m_characterRectangleShape;
+    sf::RectangleShape m_shaftRectangleShape;
+    sf::RectangleShape m_spearHeadRectangleShape;
 };
