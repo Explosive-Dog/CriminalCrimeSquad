@@ -10,6 +10,7 @@
 #include "Renderable.h"
 #include "SelectionBox.h"
 #include "Spear.h"
+#include "Sword.h"
 #include "Updatable.h"
 #include "Weapon.h"
 
@@ -60,16 +61,35 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
     for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index)
     {
         auto* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
-        auto* qStaff = new QuaterStaff(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
-        newCharacter->joinRightHand(qStaff);
+        int randWeapon = (rand() % 3);
+        switch (randWeapon)
+        {
+        case 0:
+        {
+            auto* weapon1 = new QuaterStaff(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
+            newCharacter->joinRightHand(weapon1); 
+        }
+        break;
+        case 1:
+        {
+            auto * weapon2 = new Spear(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
+            newCharacter->joinRightHand(weapon2); 
+        }
+        break;
+        case 2:
+        {
+            auto * weapon3 = new Sword(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
+            newCharacter->joinRightHand(weapon3);
+        }
+            break;
+        default:
+            break;
+        }
     }
 
+    new Sword(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
+    new Spear(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
     new QuaterStaff(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
-
-    for (size_t index = (static_cast<size_t>(rand() % 10) + 2); index != 0; --index)
-    {
-        new QuaterStaff(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, grabables);
-    }
 
     // set up the selection box as part of the level generation.
     new SelectionBox(updatables, renderables);
