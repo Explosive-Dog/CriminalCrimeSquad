@@ -63,7 +63,7 @@ protected:
     b2FixtureDef m_bladeFixtureDef;
 
     b2BodyDef m_swordRigidBodyDef;
-    b2Body* m_swordRigidBody;
+    b2Body* m_swordRigidBody = nullptr;
 
     bool m_beingRendered = true;
     sf::RectangleShape m_gripRectangleShape;

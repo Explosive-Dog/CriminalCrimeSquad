@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "Joinable.h"
 #include "KeyboardAndMouseState.h"
+#include "Physical.h"
 #include "Player.h"
 #include "QuaterStaff.h"
 #include "Renderable.h"
@@ -43,22 +44,23 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
                std::vector<const Renderable*>& renderables,
                b2World& physicsWorld,
                Camera& camera,
-               std::vector<const Grabable*>& grabables)
+               std::vector<const Grabable*>& grabables,
+               std::vector<Physical*>& phyicsUpdatables)
 {
     {
         float x = static_cast<float>(rand() % 10);
         float y = static_cast<float>(rand() % 10);
-        new Player(physicsWorld, x, y, updatables, renderables, camera);
+        new Player(physicsWorld, x, y, updatables, renderables, camera, phyicsUpdatables);
     }
 
     // random non-player controlled characters.
 
-    for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index)
+    for (size_t index = (static_cast<size_t>(rand() % 1) + 1); index != 0; --index)
     {
         new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
     }
 
-    for (size_t index = (static_cast<size_t>(rand() % 50) + 1); index != 0; --index)
+    for (size_t index = (static_cast<size_t>(rand() % 4) + 1); index != 0; --index)
     {
         auto* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
         int randWeapon = (rand() % 3);
@@ -118,21 +120,23 @@ int main()
     std::vector<std::unique_ptr<Updatable>> updatables;
     std::vector<const Renderable*> renderables;
     std::vector<const Grabable*> grabables;
+    std::vector<Physical*> phyicsUpdatables;
 
     Camera* playerView = new Camera;
     updatables.emplace_back(playerView);
 
     b2World physicsWorld({0.f, 0.f});
-    prepLevel(updatables, renderables, physicsWorld, *playerView, grabables);
+    prepLevel(updatables, renderables, physicsWorld, *playerView, grabables, phyicsUpdatables);
 
-    float timeStep = 1.f / 144.f;
     int32 velocityIterations = 10;
     int32 positionIterations = 10;
-
+    constexpr float physicsTimeStep = 1.f / 144.f;
     float deltaTime = 0.f;
+    float timeSinceLastPhysicsUpdate = 0.f;
     while (mainWindow.isOpen())
     {
         deltaTime = deltaTimeClock.restart().asSeconds();
+        timeSinceLastPhysicsUpdate += deltaTime;
 
         events(mainWindow, keyboardAndMouseState, *playerView->getView());
 
@@ -142,7 +146,13 @@ int main()
             updatable->update(deltaTime, updateParameters);
         }
 
-
+        while (timeSinceLastPhysicsUpdate > physicsTimeStep) {
+            for (auto physicsObject : phyicsUpdatables) {
+                physicsObject->physicsUpdate(physicsTimeStep, updateParameters);
+            }
+            physicsWorld.Step(physicsTimeStep, velocityIterations, positionIterations);
+            timeSinceLastPhysicsUpdate -= physicsTimeStep;
+        }
 
         mainWindow.setView(*playerView->getView());
         mainWindow.clear(sf::Color::Black);
@@ -154,7 +164,6 @@ int main()
         }
         mainWindow.display();
 
-        physicsWorld.Step(timeStep, velocityIterations, positionIterations);
         //system("cls");
     }
     return 0;

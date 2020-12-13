@@ -5,16 +5,22 @@ Player::Player(b2World& world,
                float positionY, 
                std::vector<std::unique_ptr<Updatable>>& updatables,
                std::vector<const Renderable*>& renderables,
-               Camera& camera)
-               : Character(world, positionX, positionY, updatables, renderables), m_camera(camera)
+               Camera& camera,
+               std::vector<Physical*>& physicalUpdatables)
+               : Character(world, positionX, positionY, updatables, renderables),
+               m_camera(camera), 
+               Physical(physicalUpdatables)
 {
     m_characterRectangleShape.setFillColor(sf::Color::Red);
 }
 
 void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
-
     Character::update(deltaTime, updateParameters);
+    m_camera.getView()->setCenter(m_characterRectangleShape.getPosition());
+}
 
+void Player::physicsUpdate(const float physicsTimeStep, UpdateParameters& updateParameters)
+{   
     float horizontalMovement = 0.f;
     float verticalMovement = 0.f;
     float rotationalMovement = 0.f;
@@ -62,11 +68,11 @@ void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
     if (updateParameters.keyboardAndMouseState.mouseRight == true)
     {
         if (m_rightHandJoint != nullptr) {
-            sf::Vector2f sfmlDifference = {updateParameters.window.mapPixelToCoords(
+            sf::Vector2f sfmlDifference = { updateParameters.window.mapPixelToCoords(
                                        updateParameters.keyboardAndMouseState.currentMousePosition) -
                                        updateParameters.window.mapPixelToCoords(
                                        updateParameters.keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta) };
-            float difference = (std::sqrt(std::pow(sfmlDifference.x,2) + std::pow(sfmlDifference.y,2))) * deltaTime;
+            float difference = (std::sqrt(std::pow(sfmlDifference.x, 2) + std::pow(sfmlDifference.y, 2))) * physicsTimeStep;
             if (sfmlDifference.x < 0.f) {
                 difference = -difference;
             }
@@ -78,12 +84,11 @@ void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
         m_useKeyAlreadyPressed = false;
     }
 
-    b2Vec2 forceToMoveBy = { horizontalMovement * m_moveSpeedMultiplier * deltaTime, verticalMovement * m_moveSpeedMultiplier * deltaTime };
-    float forceToRotateBy = rotationalMovement * m_rotationSpeedMultiplier * deltaTime;
+    b2Vec2 forceToMoveBy = { horizontalMovement * m_moveSpeedMultiplier * physicsTimeStep, verticalMovement * m_moveSpeedMultiplier * physicsTimeStep };
+    float forceToRotateBy = rotationalMovement * m_rotationSpeedMultiplier * physicsTimeStep;
 
     b2Vec2 vel = m_rigidBody->GetLinearVelocity();
 
     m_rigidBody->ApplyForceToCenter(forceToMoveBy, true);
     m_rigidBody->ApplyAngularImpulse(forceToRotateBy, true);
-    m_camera.getView()->setCenter(m_characterRectangleShape.getPosition());
 }

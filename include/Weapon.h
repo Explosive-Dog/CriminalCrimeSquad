@@ -9,8 +9,10 @@
 class Weapon : public Updatable, public Renderable, public Grabable
 {
 public:
+
     Weapon::Weapon(std::vector<const Grabable*>& grabables) : Grabable(grabables)
     { /* Intentionally Blank */ }
+
     virtual ~Weapon() = default;
 protected:
 };

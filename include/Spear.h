@@ -36,14 +36,14 @@ protected:
 
     //defines the shape and the location of the fixture
     b2Vec2 m_spearHeadShape[8] = {
-                                  {0.f, 0.f + (m_shaftHeight / 2.f)}, // bottom middle
-                                  {0.0175f, 0.f + (m_shaftHeight / 2.f)}, // bottom right
-                                  {0.035f, 0.18f + (m_shaftHeight / 2.f)}, // lowermiddle right
-                                  {0.0175f, 0.50f + (m_shaftHeight / 2.f)}, // uppermiddle right
-                                  {0.f, 0.53f + (m_shaftHeight / 2.f)}, // top middle
-                                  {-0.0175f, 0.50f + (m_shaftHeight / 2.f)}, // uppermiddle left
-                                  {-0.035f, 0.18f + (m_shaftHeight / 2.f)}, // lowermiddle left
-                                  {-0.0175f, 0.f + (m_shaftHeight / 2.f)} // bottom left
+                                 {0.f, 0.f + (m_shaftHeight / 2.f)}, // bottom middle
+                                 {0.0175f, 0.f + (m_shaftHeight / 2.f)}, // bottom right
+                                 {0.035f, 0.18f + (m_shaftHeight / 2.f)}, // lowermiddle right
+                                 {0.0175f, 0.48f + (m_shaftHeight / 2.f)}, // uppermiddle right
+                                 {0.f, 0.53f + (m_shaftHeight / 2.f)}, // top middle
+                                 {-0.0175f, 0.48f + (m_shaftHeight / 2.f)}, // uppermiddle left
+                                 {-0.035f, 0.18f + (m_shaftHeight / 2.f)}, // lowermiddle left
+                                 {-0.0175f, 0.f + (m_shaftHeight / 2.f)} // bottom left
     };
 
     b2PolygonShape m_shaftPolygonShape;
@@ -53,7 +53,7 @@ protected:
     b2FixtureDef m_spearHeadFixtureDef;
 
     b2BodyDef m_spearRigidBodyDef;
-    b2Body* m_spearRigidBody;
+    b2Body* m_spearRigidBody = nullptr;
 
     bool m_beingRendered = true;
     sf::RectangleShape m_shaftRectangleShape;

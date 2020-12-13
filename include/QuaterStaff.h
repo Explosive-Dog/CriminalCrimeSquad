@@ -33,7 +33,7 @@ protected:
 
     bool m_usingPhysics = true;
     b2BodyDef m_rigidBodyDef;
-    b2Body* m_rigidBody;
+    b2Body* m_rigidBody = nullptr;
     b2PolygonShape m_dynamicBox;
     b2FixtureDef m_fixtureDef;
 

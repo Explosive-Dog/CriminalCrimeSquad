@@ -3,13 +3,13 @@
 #include <box2d/box2d.h>
 
 #include "Joinable.h"
+#include "Physical.h"
 #include "Renderable.h"
 #include "Updatable.h"
 
 class Character : public Updatable, public Renderable, public Joinable
 {
 public:
-
     Character(b2World &world,
               float positionX,
               float positionY, 
@@ -48,7 +48,7 @@ protected:
 
     bool m_usingPhysics = true;
     b2BodyDef m_rigidBodyDef;
-    b2Body* m_rigidBody;
+    b2Body* m_rigidBody = nullptr;
     b2PolygonShape m_dynamicBox;
     b2FixtureDef m_fixtureDef;
 
@@ -62,4 +62,8 @@ protected:
     const Grabable* m_leftHandIsGrabbing = nullptr;
     b2Joint* m_leftHandJoint = nullptr;
     b2RevoluteJointDef m_leftHandJointDef;
+
+    bool dead = false;
+    bool removalFlag = false;
+    sf::Clock* deadTimer = nullptr;
 };
