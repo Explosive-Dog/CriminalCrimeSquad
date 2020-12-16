@@ -47,7 +47,7 @@ protected:
     bool m_dead = false;
     bool m_deadTimerSet = false;
     bool m_removalFlag = false;
-    sf::Clock* m_deadTimer = nullptr;
+    std::unique_ptr<sf::Clock> m_deadTimer = nullptr;
 
 
     float m_densityMultiplier = 1000.f;

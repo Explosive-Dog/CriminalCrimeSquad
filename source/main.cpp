@@ -56,9 +56,9 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
 
     // random non-player controlled characters.
 
-    for (size_t index = (static_cast<size_t>(rand() % 1) + 1); index != 0; --index)
+    for (size_t index = (static_cast<size_t>(rand() % 60) + 1); index != 0; --index)
     {
-        new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, phyicsUpdatables);
+        new Character(physicsWorld, 20.f, 20.f, updatables, renderables, phyicsUpdatables);
     }
 
     for (size_t index = (static_cast<size_t>(rand() % 10) + 1); index != 0; --index)

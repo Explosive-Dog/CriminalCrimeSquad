@@ -50,7 +50,7 @@ void Character::update(const float deltaTime, UpdateParameters& updateParameters
 
     if (m_dead == true && m_deadTimerSet == false) {
         m_characterRectangleShape.setFillColor(sf::Color::Green);
-        m_deadTimer = new sf::Clock;
+        m_deadTimer = std::make_unique<sf::Clock>();
         m_deadTimerSet = true;
         m_deadTimer->restart();
     }
@@ -58,6 +58,7 @@ void Character::update(const float deltaTime, UpdateParameters& updateParameters
         if (m_deadTimer->getElapsedTime().asSeconds() > 10.f) {
             m_removalFlag = true;
             std::cout << "removing" << std::endl;
+            m_deadTimer = nullptr;
         }
     }
 }
