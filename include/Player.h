@@ -4,7 +4,7 @@
 #include "Joinable.h"
 #include "Physical.h"
 
-class Player : public Character , public Physical
+class Player : public Character
 {
 public:
     Player(b2World& world,
@@ -12,8 +12,8 @@ public:
            float positionY,
            std::vector<std::unique_ptr<Updatable>>& updatables,
            std::vector<const Renderable*>& renderables,
-           Camera& camera,
-           std::vector<Physical*>& physicalUpdatables);
+           std::vector<Physical*>& physicalUpdatables,
+           Camera& camera);
 
     virtual ~Player() = default;
 

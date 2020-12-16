@@ -7,14 +7,15 @@
 #include "Renderable.h"
 #include "Updatable.h"
 
-class Character : public Updatable, public Renderable, public Joinable
+class Character : public Updatable, public Renderable, public Joinable, public Physical
 {
 public:
     Character(b2World &world,
               float positionX,
               float positionY, 
               std::vector<std::unique_ptr<Updatable>>& updatables,
-              std::vector<const Renderable*>& renderables);
+              std::vector<const Renderable*>& renderables,
+              std::vector<Physical*>& physicalUpdatables);
 
     virtual ~Character() = default;
 
@@ -30,11 +31,24 @@ public:
 
     void render(sf::RenderWindow& drawingWindow) const override;
 
+    void physicsUpdate(const float physicsTimeStep, UpdateParameters& updateParameters) override;
+
+    void onCollision(const CollisionData thisObject, const CollisionData otherObject, const float physicsTimeStep) override;
+    
+    void damage(const float valueToDamageBy);
+
 protected:
+
+    bool isAPlayer = false;
 
     std::string m_firstName = "Firstname";
     std::string m_lastName = "Lastname";
-    float m_hp = 1000.f;
+    float m_hp = 10.f;
+    bool m_dead = false;
+    bool m_deadTimerSet = false;
+    bool m_removalFlag = false;
+    sf::Clock* m_deadTimer = nullptr;
+
 
     float m_densityMultiplier = 1000.f;
 
@@ -63,7 +77,5 @@ protected:
     b2Joint* m_leftHandJoint = nullptr;
     b2RevoluteJointDef m_leftHandJointDef;
 
-    bool dead = false;
-    bool removalFlag = false;
-    sf::Clock* deadTimer = nullptr;
+
 };

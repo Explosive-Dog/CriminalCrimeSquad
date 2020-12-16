@@ -1,17 +1,18 @@
 #include "Player.h"
+#include <iostream>
 
 Player::Player(b2World& world,
                float positionX,
                float positionY, 
                std::vector<std::unique_ptr<Updatable>>& updatables,
                std::vector<const Renderable*>& renderables,
-               Camera& camera,
-               std::vector<Physical*>& physicalUpdatables)
-               : Character(world, positionX, positionY, updatables, renderables),
-               m_camera(camera), 
-               Physical(physicalUpdatables)
+               std::vector<Physical*>& physicalUpdatables,
+               Camera& camera)
+               : Character(world, positionX, positionY, updatables, renderables, physicalUpdatables),
+               m_camera(camera)
 {
     m_characterRectangleShape.setFillColor(sf::Color::Red);
+    isAPlayer = true;
 }
 
 void Player::update(const float deltaTime, UpdateParameters& updateParameters) {

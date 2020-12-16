@@ -3,6 +3,7 @@
 
 #include "Camera.h"
 #include "Character.h"
+#include "ContactListener.h"
 #include "Joinable.h"
 #include "KeyboardAndMouseState.h"
 #include "Physical.h"
@@ -50,19 +51,19 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
     {
         float x = static_cast<float>(rand() % 10);
         float y = static_cast<float>(rand() % 10);
-        new Player(physicsWorld, x, y, updatables, renderables, camera, phyicsUpdatables);
+        new Player(physicsWorld, x, y, updatables, renderables, phyicsUpdatables, camera);
     }
 
     // random non-player controlled characters.
 
     for (size_t index = (static_cast<size_t>(rand() % 1) + 1); index != 0; --index)
     {
-        new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
+        new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, phyicsUpdatables);
     }
 
-    for (size_t index = (static_cast<size_t>(rand() % 4) + 1); index != 0; --index)
+    for (size_t index = (static_cast<size_t>(rand() % 10) + 1); index != 0; --index)
     {
-        auto* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables);
+        auto* newCharacter = new Character(physicsWorld, static_cast<float>(rand() % 10), static_cast<float>(rand() % 10), updatables, renderables, phyicsUpdatables);
         int randWeapon = (rand() % 3);
         switch (randWeapon)
         {
@@ -131,6 +132,9 @@ int main()
     int32 velocityIterations = 10;
     int32 positionIterations = 10;
     constexpr float physicsTimeStep = 1.f / 144.f;
+    ContactListener contactListener(physicsTimeStep);
+    physicsWorld.SetContactListener(&contactListener);
+
     float deltaTime = 0.f;
     float timeSinceLastPhysicsUpdate = 0.f;
     while (mainWindow.isOpen())
@@ -139,12 +143,7 @@ int main()
         timeSinceLastPhysicsUpdate += deltaTime;
 
         events(mainWindow, keyboardAndMouseState, *playerView->getView());
-
         UpdateParameters updateParameters(mainWindow, *playerView->getView(), keyboardAndMouseState, grabables);
-        for (auto &updatable : updatables)
-        {
-            updatable->update(deltaTime, updateParameters);
-        }
 
         while (timeSinceLastPhysicsUpdate > physicsTimeStep) {
             for (auto physicsObject : phyicsUpdatables) {
@@ -154,8 +153,13 @@ int main()
             timeSinceLastPhysicsUpdate -= physicsTimeStep;
         }
 
+        for (auto &updatable : updatables)
+        {
+            updatable->update(deltaTime, updateParameters);
+        }
+
         mainWindow.setView(*playerView->getView());
-        mainWindow.clear(sf::Color::Black);
+        mainWindow.clear(sf::Color(75, 123, 34, 255));
         auto renderPriority = [](const Renderable* x, const Renderable* y) {return x->getRenderZLevel() < y->getRenderZLevel();};
         std::stable_sort(renderables.begin(), renderables.end(), renderPriority);
         for (auto &renderable : renderables)

@@ -28,6 +28,7 @@ QuaterStaff::QuaterStaff(b2World& world,
 
     m_renderZLevel = m_initialRenderZLevel;
 
+    m_rigidBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(nullptr);
     updatables.emplace_back(this);
     renderables.push_back(this);
     grabables.push_back(this);
