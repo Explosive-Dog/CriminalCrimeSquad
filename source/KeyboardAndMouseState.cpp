@@ -72,6 +72,9 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
     {
         keysPressed[event.key.code] = false;
     }
+    if (!window.hasFocus()) {
+        keysPressed.clear();
+    }
     if (event.type == sf::Event::EventType::MouseWheelScrolled)
     {
         if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
