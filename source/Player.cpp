@@ -17,6 +17,7 @@ Player::Player(b2World& world,
 
 void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
     Character::update(deltaTime, updateParameters);
+    std::cout << "Player Hp: " << m_hp << std::endl;
     m_camera.getView()->setCenter(m_characterRectangleShape.getPosition());
 }
 

@@ -53,6 +53,10 @@ void Character::update(const float deltaTime, UpdateParameters& updateParameters
         m_deadTimer = std::make_unique<sf::Clock>();
         m_deadTimerSet = true;
         m_deadTimer->restart();
+        b2Filter noContact;
+        noContact.maskBits = 0;
+        releaseRightHandJoin();
+        m_rigidBody->GetFixtureList()->SetFilterData(noContact);
     }
     if (m_deadTimer != nullptr && m_removalFlag == false) {
         if (m_deadTimer->getElapsedTime().asSeconds() > 10.f) {
