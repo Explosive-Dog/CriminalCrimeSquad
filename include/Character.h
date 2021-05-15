@@ -33,7 +33,7 @@ public:
 
     void physicsUpdate(const float physicsTimeStep, UpdateParameters& updateParameters) override;
 
-    void onCollision(const CollisionData thisObject, const CollisionData otherObject, const float physicsTimeStep) override;
+    void onCollision(const float physicsTimeStep) override;
     
     void damage(const float valueToDamageBy);
 

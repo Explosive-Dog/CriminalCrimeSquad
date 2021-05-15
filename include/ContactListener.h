@@ -11,7 +11,16 @@
 class ContactListener : public b2ContactListener
 {
 public:
+    enum AorB : bool
+    {
+        a = true,
+        b = false,
+        pre = true,
+        post = false
+    };
     ContactListener(const float physicsTimeStep);
+
+    Physical::CollisionData generateCollisionData(bool aOrB, bool preOrPost, b2Contact* contact);
 
     void BeginContact(b2Contact* contact) override;
 
@@ -23,6 +32,4 @@ public:
 
 private:
     const float m_physicsTimeStep = 0.f;
-    Physical::CollisionData collisionDataObjectA;
-    Physical::CollisionData collisionDataObjectB;
 };

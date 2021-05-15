@@ -113,18 +113,23 @@ void Character::damage(const float valueToDamageBy) {
     }
 }
 
-void Character::onCollision(const CollisionData thisObject, const CollisionData otherObject, const float physicsTimeStep)
+void Character::onCollision(const float physicsTimeStep)
 {
-    const float preMagnitudeThisObject = std::sqrt((std::pow(thisObject.m_preSolveLinearVelocity.x, 2.f)) + (std::pow(thisObject.m_preSolveLinearVelocity.y, 2.f)));
-    const float preMagnitudeOtherObject = std::sqrt((std::pow(otherObject.m_preSolveLinearVelocity.x, 2.f)) + (std::pow(otherObject.m_preSolveLinearVelocity.y, 2.f)));
-    const float postMagnitudeThisObject = std::sqrt((std::pow(thisObject.m_postSolveLinearVelocity.x, 2.f)) + (std::pow(thisObject.m_postSolveLinearVelocity.y, 2.f)));
-    const float postMagnitudeOtherObject = std::sqrt((std::pow(otherObject.m_postSolveLinearVelocity.x, 2.f)) + (std::pow(otherObject.m_postSolveLinearVelocity.y, 2.f)));
-    const float changeInMagnitudeThisObject = std::abs(preMagnitudeThisObject - postMagnitudeThisObject) * physicsTimeStep * thisObject.m_bodyMass;
-    const float changeInMagnitudeOtherObject = std::abs(preMagnitudeOtherObject - postMagnitudeOtherObject) * physicsTimeStep * otherObject.m_bodyMass;
-    const float changeInAngularVelocityThisObject = std::abs(thisObject.m_preSolveAngularVelocity - thisObject.m_postSolveAngularVelocity) * physicsTimeStep * thisObject.m_bodyMass;
-    const float changeInAngularVelocityOtherObject = std::abs(otherObject.m_preSolveAngularVelocity - otherObject.m_postSolveAngularVelocity) * physicsTimeStep * otherObject.m_bodyMass;
-    const float damageCalculation = changeInMagnitudeThisObject + changeInMagnitudeOtherObject + changeInAngularVelocityThisObject + changeInAngularVelocityOtherObject;
+    //this needs reworking
+    const float preMagnitudeThisObject = std::sqrt((std::pow(m_collisionData.m_preSolveLinearVelocityThis.x, 2.f)) + (std::pow(m_collisionData.m_preSolveLinearVelocityThis.y, 2.f)));
+    const float preMagnitudeOtherObject = std::sqrt((std::pow(m_collisionData.m_preSolveLinearVelocityOther.x, 2.f)) + (std::pow(m_collisionData.m_preSolveLinearVelocityOther.y, 2.f)));
+    const float postMagnitudeThisObject = std::sqrt((std::pow(m_collisionData.m_postSolveLinearVelocityThis.x, 2.f)) + (std::pow(m_collisionData.m_postSolveLinearVelocityThis.y, 2.f)));
+    const float postMagnitudeOtherObject = std::sqrt((std::pow(m_collisionData.m_postSolveLinearVelocityOther.x, 2.f)) + (std::pow(m_collisionData.m_postSolveLinearVelocityOther.y, 2.f)));
+    const float changeInMagnitudeThisObject = std::abs(preMagnitudeThisObject - postMagnitudeThisObject) /** physicsTimeStep * m_rigidBody->GetMass()*/;
+    const float changeInMagnitudeOtherObject = std::abs(preMagnitudeOtherObject - postMagnitudeOtherObject) /** physicsTimeStep * m_collisionData.m_bodyMassOther*/;
+    const float changeInAngularVelocityThisObject = std::abs(m_collisionData.m_preSolveAngularVelocityThis - m_collisionData.m_postSolveAngularVelocityThis) /** physicsTimeStep * m_rigidBody->GetMass()*/;
+    const float changeInAngularVelocityOtherObject = std::abs(m_collisionData.m_preSolveAngularVelocityOther - m_collisionData.m_postSolveAngularVelocityOther) /** physicsTimeStep * m_collisionData.m_bodyMassOther*/;
+    const float damageCalculation = (changeInMagnitudeThisObject + changeInMagnitudeOtherObject + changeInAngularVelocityThisObject + changeInAngularVelocityOtherObject);
+     
     if (damageCalculation > 0.5f) {
+        std::cout << "damage: " << damageCalculation << std::endl;
         this->damage(damageCalculation);
     }
+    clearCollisionData();
+    (void)physicsTimeStep;
 }

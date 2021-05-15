@@ -17,7 +17,6 @@ Player::Player(b2World& world,
 
 void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
     Character::update(deltaTime, updateParameters);
-    std::cout << "Player Hp: " << m_hp << std::endl;
     m_camera.getView()->setCenter(m_characterRectangleShape.getPosition());
 }
 
@@ -74,7 +73,7 @@ void Player::physicsUpdate(const float physicsTimeStep, UpdateParameters& update
                                        updateParameters.keyboardAndMouseState.currentMousePosition) -
                                        updateParameters.window.mapPixelToCoords(
                                        updateParameters.keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta) };
-            float difference = (std::sqrt(std::pow(sfmlDifference.x, 2) + std::pow(sfmlDifference.y, 2))) * physicsTimeStep;
+            float difference = static_cast<float>( (std::sqrt(std::pow(sfmlDifference.x, 2) + std::pow(sfmlDifference.y, 2)))) * physicsTimeStep;
             if (sfmlDifference.x < 0.f) {
                 difference = -difference;
             }
