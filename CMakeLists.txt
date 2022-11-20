@@ -1,4 +1,4 @@
-# cmake -DBOX2D_LIB_DIR_PREFIX="C:\Source\box2d-2.4.1\build\bin" -DSFML_LIB_DIR_PREFIX="C:\Source\SFML-2.5.1\build\lib" -DBOX2D_INCLUDE_DIR="C:\Source\box2d-2.4.1\include" -DSFML_INCLUDE_DIR="C:\Source\SFML-2.5.1\include" -DCMAKE_BUILD_TYPE=Debug ../
+# cmake -DSFML_LIB_DIR_PREFIX="C:\Source\SFML-2.5.1\build\lib" -DSFML_INCLUDE_DIR="C:\Source\SFML-2.5.1\include" -DCMAKE_BUILD_TYPE=Debug ../
 
 cmake_minimum_required(VERSION 3.16)
 project(notlikeroguelike)
@@ -21,7 +21,6 @@ target_include_directories(
 target_link_libraries(
     notlikeroguelike
     PUBLIC
-    box2d
 )
 
 if (${MSVC})
@@ -31,7 +30,6 @@ if (${MSVC})
         notlikeroguelike
         PUBLIC
         ${SFML_INCLUDE_DIR}
-        ${BOX2D_INCLUDE_DIR}
     )
 
     file(
@@ -46,7 +44,6 @@ if (${MSVC})
         notlikeroguelike
         PUBLIC
         "${SFML_LIB_DIR_PREFIX}/${CMAKE_BUILD_TYPE}"
-        "${BOX2D_LIB_DIR_PREFIX}/${CMAKE_BUILD_TYPE}"
     )
     if (${CMAKE_BUILD_TYPE} MATCHES Debug)
         target_link_libraries(

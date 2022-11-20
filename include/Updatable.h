@@ -1,8 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <box2d/box2d.h>
 
-#include "Joinable.h"
 #include "KeyboardAndMouseState.h"
 
 struct UpdateParameters final
@@ -10,16 +8,14 @@ struct UpdateParameters final
     const sf::RenderWindow& window;
     sf::View& view;
     const KeyboardAndMouseState& keyboardAndMouseState;
-    const std::vector<const Grabable*>& grabables;
+
 
     UpdateParameters(const sf::RenderWindow& mainWindow,
         sf::View& playerView,
-        const KeyboardAndMouseState& gameKeyboardAndMouseState,
-        const std::vector<const Grabable*>& gameGrabables)
+        const KeyboardAndMouseState& gameKeyboardAndMouseState)
         : window(mainWindow),
         view(playerView),
-        keyboardAndMouseState(gameKeyboardAndMouseState),
-        grabables(gameGrabables)
+        keyboardAndMouseState(gameKeyboardAndMouseState)
     {   /* Intentionaly Blank. */   }
 };
 
