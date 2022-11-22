@@ -17,6 +17,8 @@ public:
 
 private:
 
+    void Camera::scrollCameraView(const float deltaTime, UpdateParameters& updateParameters);
+
     void zoomCameraView(const float deltaTime, UpdateParameters& updateParameters);
 
     sf::View playerView;

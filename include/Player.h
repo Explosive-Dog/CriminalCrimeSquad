@@ -9,14 +9,12 @@ public:
     Player(float positionX,
            float positionY,
            std::vector<std::unique_ptr<Updatable>>& updatables,
-           std::vector<const Renderable*>& renderables,
-           Camera& camera);
+           std::vector<const Renderable*>& renderables);
 
     virtual ~Player() = default;
 
     void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
 private:
-    Camera& m_camera;
     bool m_useKeyAlreadyPressed = false;
 };

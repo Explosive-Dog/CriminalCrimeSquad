@@ -29,13 +29,13 @@ void SelectionBox::render(sf::RenderWindow& drawingWindow) const
 void SelectionBox::update(const float deltaTime, UpdateParameters& updateParameters)
 {
     (void)deltaTime;
-    createOrModifySelectionBox(updateParameters.view, updateParameters.keyboardAndMouseState, updateParameters.window);
-    setVisible(updateParameters.keyboardAndMouseState);
+    createOrModifySelectionBox(updateParameters.view, updateParameters.gameState, updateParameters.window);
+    setVisible(updateParameters.gameState);
 }
 
-void SelectionBox::setVisible(const KeyboardAndMouseState& keyboardAndMouseState)
+void SelectionBox::setVisible(const GameState& gameState)
 {
-    if (keyboardAndMouseState.mouseLeft == true)
+    if (gameState.mouseLeft == true)
     {
         m_visible = true;
     }
@@ -45,7 +45,7 @@ void SelectionBox::setVisible(const KeyboardAndMouseState& keyboardAndMouseState
     }
 }
 
-void SelectionBox::createOrModifySelectionBox(sf::View& view, const KeyboardAndMouseState& keyboardAndMouseState, const sf::RenderWindow& window) {
+void SelectionBox::createOrModifySelectionBox(sf::View& view, const GameState& gameState, const sf::RenderWindow& window) {
 
     //TO DO: refine selection box thickness depending on window zoom level so its better then this implimentation here.
     float thickness = (view.getSize().x / 2.f) * (view.getSize().y / 2.f) / 60000.f;
@@ -60,11 +60,11 @@ void SelectionBox::createOrModifySelectionBox(sf::View& view, const KeyboardAndM
     m_selectionBoxRectangleShape.setOutlineThickness(thickness);
 
 
-    if (keyboardAndMouseState.mouseLeft == true)
+    if (gameState.mouseLeft == true)
     {
-        sf::Vector2f currentWorldMousePosition = window.mapPixelToCoords(keyboardAndMouseState.currentMousePosition);
-        m_selectionBoxRectangleShape.setPosition(keyboardAndMouseState.mousePositionInWorldWhenLeftMouseButtonWasLastPressed);
-        m_selectionBoxRectangleShape.setSize(currentWorldMousePosition - keyboardAndMouseState.mousePositionInWorldWhenLeftMouseButtonWasLastPressed);
+        sf::Vector2f currentWorldMousePosition = window.mapPixelToCoords(gameState.currentMousePosition);
+        m_selectionBoxRectangleShape.setPosition(gameState.mousePositionInWorldWhenLeftMouseButtonWasLastPressed);
+        m_selectionBoxRectangleShape.setSize(currentWorldMousePosition - gameState.mousePositionInWorldWhenLeftMouseButtonWasLastPressed);
     }
 }
 

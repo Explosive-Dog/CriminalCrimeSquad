@@ -2,7 +2,7 @@
 
 #include "Camera.h"
 #include "Character.h"
-#include "KeyboardAndMouseState.h"
+#include "GameState.h"
 #include "Player.h"
 #include "Renderable.h"
 #include "SelectionBox.h"
@@ -15,10 +15,10 @@
 #include <string>
 #include <vector>
 
-void events(sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState, sf::View& view)
+void events(sf::RenderWindow& window, GameState& gameState, sf::View& view)
 {
     sf::Event event;    
-    keyboardAndMouseState.resetKeyboardAndMouseStateCounters();
+    gameState.resetKeyboardAndMouseStateCounters();
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed) 
@@ -29,19 +29,17 @@ void events(sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseSta
         {
             view.setSize(static_cast<float>(event.size.width / 20), static_cast<float>(event.size.height / 20));
         }
-        keyboardAndMouseState.updateKeyboardAndMouseState(window, view, event);
+        gameState.updateKeyboardAndMouseState(window, view, event);
     }
 }
 
 void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
-               std::vector<const Renderable*>& renderables,
-               Camera& camera)
+               std::vector<const Renderable*>& renderables)
 {
-    {
-        float x = static_cast<float>(rand() % 10);
-        float y = static_cast<float>(rand() % 10);
-        new Player(x, y, updatables, renderables, camera);
-    }
+
+    float x = static_cast<float>(rand() % 10);
+    float y = static_cast<float>(rand() % 10);
+    new Player(x, y, updatables, renderables);
 
     // random non-player controlled characters.
 
@@ -61,9 +59,7 @@ void prepLevel(std::vector<std::unique_ptr<Updatable>> &updatables,
 
 int main()
 {
-    sf::Clock gameTimeClock;
-    sf::Clock deltaTimeClock;
-    sf::Joystick::update();
+
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
 
@@ -74,23 +70,23 @@ int main()
     sf::RenderWindow mainWindow(sf::VideoMode(800, 600), "A Game? seed: " + seedString, sf::Style::Default, settings);
     mainWindow.setFramerateLimit(200);
     mainWindow.setKeyRepeatEnabled(false);
-    KeyboardAndMouseState keyboardAndMouseState;
+
+    GameState gameState;
     std::vector<std::unique_ptr<Updatable>> updatables;
     std::vector<const Renderable*> renderables;
-
 
     Camera* playerView = new Camera;
     updatables.emplace_back(playerView);
 
-    prepLevel(updatables, renderables, *playerView);
+    prepLevel(updatables, renderables);
 
     float deltaTime = 0.f;
     while (mainWindow.isOpen())
     {
-        deltaTime = deltaTimeClock.restart().asSeconds();
+        deltaTime = gameState.deltaTimeClock.restart().asSeconds();
 
-        events(mainWindow, keyboardAndMouseState, *playerView->getView());
-        UpdateParameters updateParameters(mainWindow, *playerView->getView(), keyboardAndMouseState);
+        events(mainWindow, gameState, *playerView->getView());
+        UpdateParameters updateParameters(mainWindow, *playerView->getView(), gameState);
 
         for (auto &updatable : updatables)
         {

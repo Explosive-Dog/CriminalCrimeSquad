@@ -3,10 +3,9 @@
 Player::Player(float positionX,
                float positionY, 
                std::vector<std::unique_ptr<Updatable>>& updatables,
-               std::vector<const Renderable*>& renderables,
-               Camera& camera)
-               : Character(positionX, positionY, updatables, renderables),
-               m_camera(camera)
+               std::vector<const Renderable*>& renderables)
+               : Character(positionX, positionY, updatables, renderables)
+
 {
     m_characterRectangleShape.setFillColor(sf::Color::Red);
     isAPlayer = true;
@@ -14,5 +13,4 @@ Player::Player(float positionX,
 
 void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
     Character::update(deltaTime, updateParameters);
-    m_camera.getView()->setCenter(m_characterRectangleShape.getPosition());
 }

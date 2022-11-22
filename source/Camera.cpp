@@ -1,8 +1,11 @@
 #include "Camera.h"
 
+#include <iostream>
+
 void Camera::update(const float deltaTime, UpdateParameters& updateParameters)
 {
     zoomCameraView(deltaTime, updateParameters);
+    scrollCameraView(deltaTime, updateParameters);
 }
 
 sf::View* Camera::getView()
@@ -10,29 +13,31 @@ sf::View* Camera::getView()
     return &playerView;
 }
 
-/*
 void Camera::scrollCameraView(const float deltaTime, UpdateParameters& updateParameters)
 {
-    if (updateParameters.keyboardAndMouseState.mouseRight == true || updateParameters.keyboardAndMouseState.mouseMiddle)
+
+    if (updateParameters.gameState.mouseRight == true || updateParameters.gameState.mouseMiddle == true)
     {
-        sf::Vector2f difference = updateParameters.window.mapPixelToCoords(updateParameters.keyboardAndMouseState.currentMousePosition) - updateParameters.window.mapPixelToCoords(updateParameters.keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta);
-        if (updateParameters.keyboardAndMouseState.mouseRight == true)
+        sf::Vector2f distanceToMoveCameraBy = { 0, 0 };
+        if (updateParameters.gameState.mouseRight == true)
         {
-            difference = -difference;
-            updateParameters.keyboardAndMouseState.mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta = updateParameters.keyboardAndMouseState.currentMousePosition;
+            distanceToMoveCameraBy = updateParameters.window.mapPixelToCoords(updateParameters.gameState.currentMousePosition);
+            distanceToMoveCameraBy = distanceToMoveCameraBy - updateParameters.gameState.mousePositionInWorldWhenRightMouseButtonWasLastPressed;
+            distanceToMoveCameraBy = -distanceToMoveCameraBy;
         }
         else
         {
-            difference = difference * deltaTime * 10.f;
+            distanceToMoveCameraBy = updateParameters.window.mapPixelToCoords(updateParameters.gameState.currentMousePosition);
+            distanceToMoveCameraBy = distanceToMoveCameraBy - updateParameters.window.mapPixelToCoords(updateParameters.gameState.mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta);
+            distanceToMoveCameraBy = distanceToMoveCameraBy * deltaTime * 10.f;
         }
-        playerView.move(difference);
+        playerView.move(distanceToMoveCameraBy);
     }
 }
-*/
 
 void Camera::zoomCameraView(const float deltaTime, UpdateParameters& updateParameters)
 {
-    float zoomLevel = (updateParameters.keyboardAndMouseState.mouseWheelDelta * deltaTime * 50.f) + 1.f;
+    float zoomLevel = (updateParameters.gameState.mouseWheelDelta * deltaTime * 50.f) + 1.f;
     if (zoomLevel > 1.4f)
     {
         zoomLevel = 1.4f;
@@ -47,4 +52,5 @@ void Camera::zoomCameraView(const float deltaTime, UpdateParameters& updateParam
 Camera::Camera()
 {
     playerView.setSize({ 40.f, 30.f });
+    playerView.setCenter({ 0.f , 0.f });
 }

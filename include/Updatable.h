@@ -1,21 +1,21 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#include "KeyboardAndMouseState.h"
+#include "GameState.h"
 
 struct UpdateParameters final
 {
     const sf::RenderWindow& window;
     sf::View& view;
-    const KeyboardAndMouseState& keyboardAndMouseState;
+    const GameState& gameState;
 
 
     UpdateParameters(const sf::RenderWindow& mainWindow,
         sf::View& playerView,
-        const KeyboardAndMouseState& gameKeyboardAndMouseState)
+        const GameState& gameKeyboardAndMouseState)
         : window(mainWindow),
         view(playerView),
-        keyboardAndMouseState(gameKeyboardAndMouseState)
+        gameState(gameKeyboardAndMouseState)
     {   /* Intentionaly Blank. */   }
 };
 

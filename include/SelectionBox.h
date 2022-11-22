@@ -20,13 +20,13 @@ public:
     void update(const float deltaTime, UpdateParameters& updateParameters) override;
 
 private:
-    void setVisible(const KeyboardAndMouseState& keyboardAndMouseState);
+    void setVisible(const GameState& gameState);
 
     sf::RectangleShape m_selectionBoxRectangleShape;
 
-    void createOrModifySelectionBox(sf::View& view, const KeyboardAndMouseState& keyboardAndMouseState, const sf::RenderWindow& window);
+    void createOrModifySelectionBox(sf::View& view, const GameState& gameState, const sf::RenderWindow& window);
 
-    void updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, KeyboardAndMouseState& keyboardAndMouseState);
+    void updateUnitsWithinOrOutsideOfSelectionBox(const sf::RenderWindow& window, GameState& gameState);
 
     bool m_visible = false;
 };

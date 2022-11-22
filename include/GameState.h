@@ -3,7 +3,7 @@
 
 #include <map>
 
-class KeyboardAndMouseState final
+class GameState final
 {
 public:
     enum class KeyName {
@@ -17,12 +17,11 @@ public:
     };
 
     void resetKeyboardAndMouseStateCounters();
-
     void updateKeyboardAndMouseState(sf::RenderWindow& window, sf::View& view, sf::Event& event);
-
-    bool getKeyPressed(KeyName keyName) const;
+    bool isKeyPressed(KeyName keyName) const;
 
     float mouseWheelDelta = 0.f;
+
     bool mouseLeft = false;
     bool mouseLeftReleased = false;
     bool mouseRight = false;
@@ -38,6 +37,10 @@ public:
     sf::Vector2i mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta{ 0, 0 };
     sf::Vector2i currentMousePosition{ 0, 0 };
 
+    sf::Clock gameTimeClock;
+    sf::Clock deltaTimeClock;
+
 private:
+
     std::map<sf::Keyboard::Key, bool> keysPressed;
 };

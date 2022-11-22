@@ -1,6 +1,6 @@
-#include "KeyboardAndMouseState.h"
+#include "GameState.h"
 
-void KeyboardAndMouseState::resetKeyboardAndMouseStateCounters()
+void GameState::resetKeyboardAndMouseStateCounters()
 {
     mouseLeftReleased = false;
     mouseRightReleased = false;
@@ -8,7 +8,7 @@ void KeyboardAndMouseState::resetKeyboardAndMouseStateCounters()
     mouseWheelDelta = 0.f;
 }
 
-void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window, sf::View& view, sf::Event& event)
+void GameState::updateKeyboardAndMouseState(sf::RenderWindow& window, sf::View& view, sf::Event& event)
 {
     if (event.type == sf::Event::EventType::MouseButtonPressed)
     {
@@ -16,13 +16,14 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
         {
             mousePositionInWindowWhenLeftMouseButtonWasLastPressed.x = event.mouseButton.x;
             mousePositionInWindowWhenLeftMouseButtonWasLastPressed.y = event.mouseButton.y;
-            mousePositionInWorldWhenLeftMouseButtonWasLastPressed = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
+            mousePositionInWorldWhenLeftMouseButtonWasLastPressed = window.mapPixelToCoords(mousePositionInWindowWhenLeftMouseButtonWasLastPressed);
             mouseLeft = true;
         }
         if (sf::Mouse::Button::Right == event.mouseButton.button || sf::Mouse::Button::Middle == event.mouseButton.button)
         {
             mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta.x = event.mouseButton.x;
             mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta.y = event.mouseButton.y;
+            //window.mapPixelToCoords(mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta);
             if (sf::Mouse::Button::Right == event.mouseButton.button && mouseRight == false)
             {
                 mousePositionInWorldWhenRightMouseButtonWasLastPressed = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
@@ -85,30 +86,30 @@ void KeyboardAndMouseState::updateKeyboardAndMouseState(sf::RenderWindow& window
     (void)view;
 }
 
-bool KeyboardAndMouseState::getKeyPressed(KeyName keyName) const
+bool GameState::isKeyPressed(KeyName keyName) const
 {
     sf::Keyboard::Key keyToCheck;
     switch (keyName)
     {
-    case KeyboardAndMouseState::KeyName::moveLeft:
+    case GameState::KeyName::moveLeft:
         keyToCheck = sf::Keyboard::A;
         break;
-    case KeyboardAndMouseState::KeyName::moveDown:
+    case GameState::KeyName::moveDown:
         keyToCheck = sf::Keyboard::S;
         break;
-    case KeyboardAndMouseState::KeyName::moveRight:
+    case GameState::KeyName::moveRight:
         keyToCheck = sf::Keyboard::D;
         break;
-    case KeyboardAndMouseState::KeyName::moveUp:
+    case GameState::KeyName::moveUp:
         keyToCheck = sf::Keyboard::W;
         break;
-    case KeyboardAndMouseState::KeyName::rotateClockwise:
+    case GameState::KeyName::rotateClockwise:
         keyToCheck = sf::Keyboard::E;
         break;
-    case KeyboardAndMouseState::KeyName::rotateCounterClockwise:
+    case GameState::KeyName::rotateCounterClockwise:
         keyToCheck = sf::Keyboard::Q;
         break;
-    case KeyboardAndMouseState::KeyName::use:
+    case GameState::KeyName::use:
         keyToCheck = sf::Keyboard::F;
         break;
     default:
