@@ -11,15 +11,15 @@ public:
 
     virtual ~Camera() = default;
 
-    void update(const float deltaTime, UpdateParameters& updateParameters) override;
+    void update(UpdateParameters& updateParameters) override;
 
     sf::View* getView();
 
 private:
 
-    void Camera::scrollCameraView(const float deltaTime, UpdateParameters& updateParameters);
+    void Camera::scrollCameraView(UpdateParameters& updateParameters);
 
-    void zoomCameraView(const float deltaTime, UpdateParameters& updateParameters);
+    void zoomCameraView(UpdateParameters& updateParameters);
 
     sf::View playerView;
 

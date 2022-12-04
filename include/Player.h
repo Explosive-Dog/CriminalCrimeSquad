@@ -13,7 +13,7 @@ public:
 
     virtual ~Player() = default;
 
-    void update(const float deltaTime, UpdateParameters& updateParameters) override;
+    void update(UpdateParameters& updateParameters) override;
 
 private:
     bool m_useKeyAlreadyPressed = false;

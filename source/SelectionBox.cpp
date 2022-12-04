@@ -26,9 +26,8 @@ void SelectionBox::render(sf::RenderWindow& drawingWindow) const
     }
 }
 
-void SelectionBox::update(const float deltaTime, UpdateParameters& updateParameters)
+void SelectionBox::update(UpdateParameters& updateParameters)
 {
-    (void)deltaTime;
     createOrModifySelectionBox(updateParameters.view, updateParameters.gameState, updateParameters.window);
     setVisible(updateParameters.gameState);
 }

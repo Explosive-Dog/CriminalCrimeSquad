@@ -17,7 +17,7 @@ public:
 
     void render(sf::RenderWindow& drawingWindow) const override;
 
-    void update(const float deltaTime, UpdateParameters& updateParameters) override;
+    void update(UpdateParameters& updateParameters) override;
 
 private:
     void setVisible(const GameState& gameState);

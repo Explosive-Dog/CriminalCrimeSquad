@@ -86,11 +86,11 @@ int main()
         deltaTime = gameState.deltaTimeClock.restart().asSeconds();
 
         events(mainWindow, gameState, *playerView->getView());
-        UpdateParameters updateParameters(mainWindow, *playerView->getView(), gameState);
+        UpdateParameters updateParameters( mainWindow, *playerView->getView(), gameState, deltaTime, updatables);
 
         for (auto &updatable : updatables)
         {
-            updatable->update(deltaTime, updateParameters);
+            updatable->update(updateParameters);
         }
 
         mainWindow.setView(*playerView->getView());

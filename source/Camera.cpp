@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-void Camera::update(const float deltaTime, UpdateParameters& updateParameters)
+void Camera::update(UpdateParameters& updateParameters)
 {
-    zoomCameraView(deltaTime, updateParameters);
-    scrollCameraView(deltaTime, updateParameters);
+    zoomCameraView(updateParameters);
+    scrollCameraView(updateParameters);
 }
 
 sf::View* Camera::getView()
@@ -13,7 +13,7 @@ sf::View* Camera::getView()
     return &playerView;
 }
 
-void Camera::scrollCameraView(const float deltaTime, UpdateParameters& updateParameters)
+void Camera::scrollCameraView(UpdateParameters& updateParameters)
 {
 
     if (updateParameters.gameState.mouseRight == true || updateParameters.gameState.mouseMiddle == true)
@@ -29,15 +29,15 @@ void Camera::scrollCameraView(const float deltaTime, UpdateParameters& updatePar
         {
             distanceToMoveCameraBy = updateParameters.window.mapPixelToCoords(updateParameters.gameState.currentMousePosition);
             distanceToMoveCameraBy = distanceToMoveCameraBy - updateParameters.window.mapPixelToCoords(updateParameters.gameState.mousePositionInWindowWhenRightOrMiddleMouseButtonPressedDelta);
-            distanceToMoveCameraBy = distanceToMoveCameraBy * deltaTime * 10.f;
+            distanceToMoveCameraBy = distanceToMoveCameraBy * updateParameters.deltaTime * 10.f;
         }
         playerView.move(distanceToMoveCameraBy);
     }
 }
 
-void Camera::zoomCameraView(const float deltaTime, UpdateParameters& updateParameters)
+void Camera::zoomCameraView(UpdateParameters& updateParameters)
 {
-    float zoomLevel = (updateParameters.gameState.mouseWheelDelta * deltaTime * 50.f) + 1.f;
+    float zoomLevel = (updateParameters.gameState.mouseWheelDelta * updateParameters.deltaTime * 50.f) + 1.f;
     if (zoomLevel > 1.4f)
     {
         zoomLevel = 1.4f;

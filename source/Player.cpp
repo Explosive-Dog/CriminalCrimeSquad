@@ -11,6 +11,6 @@ Player::Player(float positionX,
     isAPlayer = true;
 }
 
-void Player::update(const float deltaTime, UpdateParameters& updateParameters) {
-    Character::update(deltaTime, updateParameters);
+void Player::update(UpdateParameters& updateParameters) {
+    Character::update(updateParameters);
 }

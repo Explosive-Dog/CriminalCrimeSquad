@@ -25,12 +25,13 @@ const sf::Drawable* Character::getDrawable() const
     return &m_characterRectangleShape;
 }
 
-void Character::update(const float deltaTime, UpdateParameters& updateParameters)
+void instinct()
 {
-    (void)deltaTime;
-    (void)updateParameters;
 
+}
 
+void Character::deadActions()
+{
     if (m_dead == true && m_deadTimerSet == false) {
         m_characterRectangleShape.setFillColor(sf::Color::Green);
         m_deadTimer = std::make_unique<sf::Clock>();
@@ -40,10 +41,26 @@ void Character::update(const float deltaTime, UpdateParameters& updateParameters
     if (m_deadTimer != nullptr && m_removalFlag == false) {
         if (m_deadTimer->getElapsedTime().asSeconds() > 10.f) {
             m_removalFlag = true;
-            std::cout << "removing" << std::endl;
             m_deadTimer = nullptr;
         }
     }
+}
+
+void Character::instinct()
+{
+
+}
+
+
+void Character::update(UpdateParameters& updateParameters)
+{
+    (void)updateParameters;
+
+    if (!m_dead)
+    {
+        instinct();
+    }
+    deadActions();
 }
 
 void Character::render(sf::RenderWindow& drawingWindow) const

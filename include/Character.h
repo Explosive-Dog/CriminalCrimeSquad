@@ -16,11 +16,14 @@ public:
 
     const sf::Drawable* getDrawable() const;
 
-    void update(const float deltaTime, UpdateParameters& updateParameters) override;
+    void update(UpdateParameters& updateParameters) override;
 
     void render(sf::RenderWindow& drawingWindow) const override;
 
 protected:
+
+    void deadActions();
+    void instinct();
 
     bool isAPlayer = false;
 
